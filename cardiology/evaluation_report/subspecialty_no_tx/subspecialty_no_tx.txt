@@ -1,0 +1,150 @@
+Testing Subset Evaluation Scores
+             Category    measure  no_egm_value  tx_egm_value     delta  improve_flag
+3                ACHD  Precision      0.559322      0.546875 -0.012447             0
+8                ACHD     Recall      0.634615      0.673077  0.038462             1
+13               ACHD     fscore      0.594595      0.603448  0.008854             1
+1   Electrophysiology  Precision      0.962594      0.972603  0.010009             1
+6   Electrophysiology     Recall      0.921241      0.931981  0.010740             1
+11  Electrophysiology     fscore      0.941463      0.951859  0.010395             1
+0      Interventional  Precision      0.929032      0.956493  0.027460             1
+5      Interventional     Recall      0.987654      0.980110 -0.007545             0
+10     Interventional     fscore      0.957447      0.968157  0.010710             1
+4           Pediatric  Precision      0.913043      0.794872 -0.118172             0
+9           Pediatric     Recall      0.403846      0.596154  0.192308             1
+14          Pediatric     fscore      0.560000      0.681319  0.121319             1
+2          Transplant  Precision      0.959391      0.909091 -0.050300             0
+7          Transplant     Recall      0.818182      0.909091  0.090909             1
+12         Transplant     fscore      0.883178      0.909091  0.025913             1
+
+Confusion Matrices
+                          Category  ACHD  Electrophysiology  Interventional  Pediatric  Transplant
+0                      no_egm_ACHD  33.0                7.0             8.0        2.0         2.0
+1         no_egm_Electrophysiology   3.0              772.0            61.0        0.0         2.0
+2            no_egm_Interventional   4.0               10.0          1440.0        0.0         4.0
+3                 no_egm_Pediatric  19.0                9.0             3.0       21.0         0.0
+4                no_egm_Transplant   0.0                4.0            38.0        0.0       189.0
+0                              NaN   NaN                NaN             NaN        NaN         NaN
+0               tx_egm_no_egm_ACHD  35.0                4.0             5.0        6.0         2.0
+1  tx_egm_no_egm_Electrophysiology   6.0              781.0            42.0        2.0         7.0
+2     tx_egm_no_egm_Interventional   5.0               12.0          1429.0        0.0        12.0
+3          tx_egm_no_egm_Pediatric  18.0                3.0             0.0       31.0         0.0
+4         tx_egm_no_egm_Transplant   0.0                3.0            18.0        0.0       210.0
+
+Category Counts
+            category  no_egm_count  tx_egm_count  delta
+0     Interventional         27111         21185  -5926
+1  Electrophysiology          4294          5523   1229
+2         Transplant          1748          6071   4323
+3          Pediatric          1058          1491    433
+4               ACHD           877           818    -59
+
+Overall Probability Description
+             no_egm        tx_egm     delta
+count  35088.000000  35088.000000  0.000000
+mean       0.674563      0.601689 -0.072875
+std        0.213800      0.246194  0.032394
+min        0.216068      0.208980 -0.007088
+25%        0.493047      0.389409 -0.103639
+50%        0.613556      0.503968 -0.109588
+75%        0.912118      0.880971 -0.031147
+max        1.000000      1.000000  0.000000
+
+Interventional Labeled Probability Description
+             no_egm        tx_egm        delta
+count  27111.000000  21185.000000 -5926.000000
+mean       0.670834      0.630355    -0.040479
+std        0.204547      0.245580     0.041033
+min        0.222000      0.215641    -0.006359
+25%        0.502191      0.405023    -0.097168
+50%        0.609537      0.552156    -0.057381
+75%        0.890724      0.907031     0.016307
+max        1.000000      0.999551    -0.000449
+
+Electrophysiology Labeled Probability Description
+            no_egm       tx_egm        delta
+count  4294.000000  5523.000000  1229.000000
+mean      0.793061     0.684550    -0.108510
+std       0.233064     0.275915     0.042851
+min       0.216068     0.218412     0.002345
+25%       0.550000     0.405269    -0.144731
+50%       0.931874     0.708057    -0.223817
+75%       0.988657     0.976438    -0.012219
+max       1.000000     1.000000     0.000000
+
+Transplant Labeled Probability Description
+            no_egm       tx_egm        delta
+count  1748.000000  6071.000000  4323.000000
+mean      0.637817     0.460334    -0.177484
+std       0.218605     0.178010    -0.040595
+min       0.224000     0.218696    -0.005304
+25%       0.436000     0.344504    -0.091496
+50%       0.595895     0.401127    -0.194769
+75%       0.860007     0.493582    -0.366426
+max       0.996670     0.993151    -0.003520
+
+Pediatric Labeled Probability Description
+            no_egm       tx_egm       delta
+count  1058.000000  1491.000000  433.000000
+mean      0.499842     0.528721    0.028879
+std       0.113541     0.129790    0.016250
+min       0.235923     0.230337   -0.005586
+25%       0.434983     0.455310    0.020327
+50%       0.490347     0.535963    0.045617
+75%       0.558654     0.618712    0.060058
+max       0.951524     0.948379   -0.003145
+
+ACHD Labeled Probability Description
+           no_egm      tx_egm      delta
+count  877.000000  818.000000 -59.000000
+mean     0.493681    0.481904  -0.011777
+std      0.131906    0.135211   0.003305
+min      0.223937    0.208980  -0.014958
+25%      0.412816    0.385703  -0.027113
+50%      0.470933    0.481776   0.010843
+75%      0.542877    0.544404   0.001527
+max      0.919816    0.886256  -0.033560
+
+Switched Labels Probability Description
+            no_egm       tx_egm     delta
+count  6422.000000  6422.000000  0.000000
+mean      0.445484     0.373804 -0.071680
+std       0.067007     0.065427 -0.001579
+min       0.216068     0.208980 -0.007088
+25%       0.403346     0.324978 -0.078368
+50%       0.446473     0.368220 -0.078253
+75%       0.487176     0.418256 -0.068919
+max       0.792264     0.722244 -0.070019
+
+Switched Labels Manual NPI List
+              npi     no_egm_label_1  no_egm_probability_1     tx_egm_label_1  tx_egm_probability_1 manual_label
+26322  1114095098     Interventional              0.492950         Transplant              0.397810             
+26643  1659350643     Interventional              0.489437         Transplant              0.332785             
+26650  1396844064     Interventional              0.489360         Transplant              0.441319             
+27055  1912959412     Interventional              0.484420  Electrophysiology              0.353574             
+27473  1629191051     Interventional              0.479810         Transplant              0.498706             
+27977  1952374571     Interventional              0.473664         Transplant              0.368524             
+27992  1356311997     Interventional              0.473482         Transplant              0.408138             
+28410  1326066036     Interventional              0.468658         Transplant              0.374983             
+28760  1548288863     Interventional              0.464249         Transplant              0.504372             
+29221  1992987770     Interventional              0.458518         Transplant              0.386814             
+29239  1477505048     Interventional              0.458374         Transplant              0.362727             
+29310  1730128836     Interventional              0.457621         Transplant              0.330500             
+29757  1770629354     Interventional              0.451529  Electrophysiology              0.298213             
+29929  1730177478     Interventional              0.449126  Electrophysiology              0.381975             
+30107  1689699373     Interventional              0.446708         Transplant              0.351155             
+30966  1487723375     Interventional              0.434270         Transplant              0.406967             
+31076  1043257546               ACHD              0.432744          Pediatric              0.563405             
+31203  1639152564     Interventional              0.430680         Transplant              0.399751             
+31267  1295949634     Interventional              0.429804         Transplant              0.357646             
+32749  1407293467     Interventional              0.402409         Transplant              0.499660             
+32843  1669522751     Interventional              0.400395  Electrophysiology              0.342097             
+32948  1689777872     Interventional              0.398000          Pediatric              0.269649             
+33077  1205935855     Interventional              0.394145         Transplant              0.409377             
+33280  1538199971     Interventional              0.389328  Electrophysiology              0.306340             
+33370  1053593699     Interventional              0.386709         Transplant              0.432790             
+33422  1285998641     Interventional              0.385416         Transplant              0.371296             
+33795  1588692941     Interventional              0.374731         Transplant              0.401461             
+34143  1962840744     Interventional              0.362000         Transplant              0.459631             
+34715  1477525368  Electrophysiology              0.327289          Pediatric              0.361504             
+35070  1164406450     Interventional              0.240868               ACHD              0.315024             
+

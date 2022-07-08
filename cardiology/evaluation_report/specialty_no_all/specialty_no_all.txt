@@ -1,0 +1,88 @@
+Testing Subset Evaluation Scores
+     Category    measure  no_egm_value  all_egm_value     delta  improve_flag
+1  Cardiology  Precision      1.000000       1.000000  0.000000             0
+3  Cardiology     Recall      0.996283       0.998141  0.001859             1
+5  Cardiology     fscore      0.998138       0.999070  0.000932             1
+0       Other  Precision      0.996667       0.998331  0.001664             1
+2       Other     Recall      1.000000       1.000000  0.000000             0
+4       Other     fscore      0.998331       0.999165  0.000834             1
+
+Confusion Matrix
+                    Category  Cardiology  Other
+0          no_egm_Cardiology       535.0    3.0
+1               no_egm_Other         2.0  613.0
+0                        NaN         NaN    NaN
+0  all_egm_no_egm_Cardiology       535.0    3.0
+1       all_egm_no_egm_Other         2.0  613.0
+
+Category Counts
+     category  no_egm_count  all_egm_count  delta
+0  Cardiology         28949          28557   -392
+1       Other          2393           2785    392
+
+Overall Probability Description
+             no_egm       all_egm     delta
+count  31342.000000  31342.000000  0.000000
+mean       0.929478      0.925833 -0.003645
+std        0.116038      0.119864  0.003826
+min        0.500000      0.500000  0.000000
+25%        0.924000      0.918000 -0.006000
+50%        0.984000      0.984000  0.000000
+75%        0.996000      0.996000  0.000000
+max        1.000000      1.000000  0.000000
+
+Cardiology Labeled Probability Description
+             no_egm       all_egm    delta
+count  28949.000000  28949.000000  0.00000
+mean       0.941219      0.938099 -0.00312
+std        0.104059      0.107838  0.00378
+min        0.500000      0.500000  0.00000
+25%        0.944000      0.940000 -0.00400
+50%        0.986000      0.986000  0.00000
+75%        0.996000      0.998000  0.00200
+max        1.000000      1.000000  0.00000
+
+Switched Labels Probability Description
+           no_egm     all_egm     delta
+count  680.000000  680.000000  0.000000
+mean     0.583406    0.574090 -0.009316
+std      0.077750    0.066686 -0.011065
+min      0.500000    0.500000  0.000000
+25%      0.528000    0.524000 -0.004000
+50%      0.566000    0.554000 -0.012000
+75%      0.614500    0.604000 -0.010500
+max      0.976000    0.878000 -0.098000
+
+Switched Labels Manual NPI List
+              npi no_egm_label_1  no_egm_probability_1 all_egm_label_1  all_egm_probability_1 manual_label
+28823  1184792632     Cardiology                 0.702           Other                  0.520             
+29143  1568429769          Other                 0.672      Cardiology                  0.524             
+29201  1003858127     Cardiology                 0.666           Other                  0.606             
+29579  1821069279     Cardiology                 0.634           Other                  0.584             
+29682  1154398329     Cardiology                 0.626           Other                  0.510             
+29767  1073806618     Cardiology                 0.622           Other                  0.504             
+29810  1679612071     Cardiology                 0.618           Other                  0.630             
+29959  1033104880     Cardiology                 0.606           Other                  0.530             
+30050  1467484386     Cardiology                 0.600           Other                  0.524             
+30052  1689991481     Cardiology                 0.600           Other                  0.602             
+30055  1821113788     Cardiology                 0.600           Other                  0.640             
+30068  1669447199     Cardiology                 0.598           Other                  0.680             
+30102  1316960230     Cardiology                 0.596           Other                  0.540             
+30269  1598831927     Cardiology                 0.584           Other                  0.528             
+30362  1720088420     Cardiology                 0.576           Other                  0.560             
+30448  1881742831     Cardiology                 0.570           Other                  0.644             
+30498  1831444884     Cardiology                 0.568           Other                  0.626             
+30508  1063521441     Cardiology                 0.566           Other                  0.552             
+30595  1851503734     Cardiology                 0.560           Other                  0.506             
+30616  1760444855     Cardiology                 0.558           Other                  0.546             
+30748  1356421770     Cardiology                 0.546           Other                  0.632             
+30786  1659376929     Cardiology                 0.542           Other                  0.702             
+30818  1457351074     Cardiology                 0.540           Other                  0.700             
+30856  1710950472     Cardiology                 0.538           Other                  0.558             
+30992  1093142598     Cardiology                 0.528           Other                  0.540             
+31001  1376713107     Cardiology                 0.528           Other                  0.510             
+31039  1639336050     Cardiology                 0.522           Other                  0.764             
+31066  1073553954     Cardiology                 0.522           Other                  0.784             
+31193  1558366443     Cardiology                 0.512           Other                  0.504             
+31221  1619973765          Other                 0.510      Cardiology                  0.540             
+
