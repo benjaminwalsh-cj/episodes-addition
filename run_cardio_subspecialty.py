@@ -4,16 +4,16 @@ from src import evaluate
 if __name__ == '__main__':
 
     # Parameters & Paths
-    path_eval_scores_pre = './tx_egm_subspecialty/results/train/precision_recall_fscore/precision_recall_fscore_file.xlsx'
-    path_eval_scores_post = './all_egm_subspecialty/results/train/precision_recall_fscore/precision_recall_fscore_file.xlsx'
+    path_eval_scores_pre = './cardiology/tx_egm_subspecialty/results/train/precision_recall_fscore/precision_recall_fscore_file.xlsx'
+    path_eval_scores_post = './cardiology/all_egm_subspecialty/results/train/precision_recall_fscore/precision_recall_fscore_file.xlsx'
 
-    path_cm_pre = './tx_egm_subspecialty/results/train/confusion_matrix/confusion_matrix_file.xlsx'
-    path_cm_post = './all_egm_subspecialty/results/train/confusion_matrix/confusion_matrix_file.xlsx'
+    path_cm_pre = './cardiology/tx_egm_subspecialty/results/train/confusion_matrix/confusion_matrix_file.xlsx'
+    path_cm_post = './cardiology/all_egm_subspecialty/results/train/confusion_matrix/confusion_matrix_file.xlsx'
 
-    path_preds_pre = './tx_egm_subspecialty/results/propagate/prediction/prediction.xlsx'
-    path_preds_post = './all_egm_subspecialty/results/propagate/prediction/prediction.xlsx'
+    path_preds_pre = './cardiology/tx_egm_subspecialty/results/propagate/prediction/prediction.xlsx'
+    path_preds_post = './cardiology/all_egm_subspecialty/results/propagate/prediction/prediction.xlsx'
 
-    output_dir = './evaluation_report/subspecialty_tx_all/'
+    output_dir = './cardiology/evaluation_report/subspecialty_tx_all/'
     report_name = 'subspecialty_tx_all'
 
     pre_label = 'tx_egm'
