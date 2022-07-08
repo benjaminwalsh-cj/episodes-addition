@@ -2,47 +2,73 @@ from src import evaluate
 
 
 if __name__ == '__main__':
-    # Testing subset evaluation scores
-    path_eval_scores_pre = './no_egm/results/train/precision_recall_fscore/precision_recall_fscore_file.xlsx'
-    path_eval_scores_post = './all_egm/results/train/precision_recall_fscore/precision_recall_fscore_file.xlsx'
 
+    # Parameters & Paths
+    path_eval_scores_pre = './no_egm/results/train/precision_recall_fscore/precision_recall_fscore_file.xlsx'
+    path_eval_scores_post = './tx_egm/results/train/precision_recall_fscore/precision_recall_fscore_file.xlsx'
+
+    path_cm_pre = './no_egm/results/train/confusion_matrix/confusion_matrix_file.xlsx'
+    path_cm_post = './tx_egm/results/train/confusion_matrix/confusion_matrix_file.xlsx'
+
+    path_preds_pre = './no_egm/results/propagate/prediction/prediction.xlsx'
+    path_preds_post = './tx_egm/results/propagate/prediction/prediction.xlsx'
+
+    output_dir = './evaluation_report/specialty_no_tx/'
+    report_name = 'specialty_no_tx'
+
+    pre_label = 'no_egm'
+    post_label = 'tx_egm'
+
+    train_data_path = None
+
+    # Testing subset evaluation scores
     pre_eval_scores = evaluate.load_evaluation_scores(
-        path_eval_scores_pre, 'no_egm')
+        path_eval_scores_pre, pre_label)
     post_eval_scores = evaluate.load_evaluation_scores(
-        path_eval_scores_post, 'all_egm')
+        path_eval_scores_post, post_label)
 
     compare_eval_scores = evaluate.eval_evaluation_scores(
-        pre_eval_scores, post_eval_scores, pre_label='no_egm', post_label='all_egm')
+        pre_eval_scores, post_eval_scores, pre_label=pre_label, post_label=post_label)
+
+    # Confusion matrices
+    pre_cm = evaluate.load_confusion_matrix(path_cm_pre)
+    post_cm = evaluate.load_confusion_matrix(path_cm_post)
+
+    compare_eval_confusion_matrices = evaluate.eval_confusion_matrices(
+        pre_cm,
+        post_cm,
+        pre_label=pre_label,
+        post_label=post_label,
+        col_count=len(pre_cm.columns)
+    )
 
     # Class counts
-    path_preds_pre = './no_egm/results/propagate/prediction/prediction.xlsx'
-    path_preds_post = './all_egm/results/propagate/prediction/prediction.xlsx'
 
     pre_preds = evaluate.load_predictions(path_preds_pre)
     post_preds = evaluate.load_predictions(path_preds_post)
 
-    pre_class_counts = evaluate.gen_class_counts(pre_preds, 'no_egm')
-    post_class_counts = evaluate.gen_class_counts(post_preds, 'all_egm')
+    pre_class_counts = evaluate.gen_class_counts(pre_preds, pre_label)
+    post_class_counts = evaluate.gen_class_counts(post_preds, post_label)
 
     compare_eval_counts = evaluate.eval_class_counts(
         pre_class_counts,
         post_class_counts,
-        'no_egm',
-        'all_egm'
+        pre_label,
+        post_label
     )
 
     # Changed Labels
     changed_labels = evaluate.id_changed_labels(
         pre_preds,
         post_preds,
-        'no_egm',
-        'all_egm'
+        pre_label,
+        post_label
     )
 
     # Get a subset of NPIs to check
     changed_labels_to_check = evaluate.gen_switched_label_subset(
         changed_labels,
-        train_data_path='./all_egm/joblib/data.joblib'
+        train_data_path=train_data_path
     )
 
     # Probability distributions
@@ -61,11 +87,11 @@ if __name__ == '__main__':
     compare_eval_proba_dist_overall = evaluate.eval_proba_distributions(
         pre_overall_stats,
         post_overall_stats,
-        'no_egm',
-        'all_egm'
+        pre_label,
+        post_label
     )
 
-    ## Classes - Cardiology
+    # Classes - Cardiology
     pre_cardio_stats = evaluate.gen_proba_stats(
         pre_preds[pre_preds['label_1'] == 'Cardiology'],
         'probability_1'
@@ -79,31 +105,32 @@ if __name__ == '__main__':
     compare_eval_proba_dist_cardio = evaluate.eval_proba_distributions(
         pre_cardio_stats,
         post_cardio_stats,
-        'no_egm',
-        'all_egm'
+        pre_label,
+        post_label
     )
 
     # Changed Labels
     pre_switched_stats = evaluate.gen_proba_stats(
         changed_labels,
-        'no_egm_probability_1'
+        f'{pre_label}_probability_1'
     )
 
     post_switched_stats = evaluate.gen_proba_stats(
         changed_labels,
-        'all_egm_probability_1'
+        f'{post_label}_probability_1'
     )
 
     compare_eval_proba_dist_switched = evaluate.eval_proba_distributions(
         pre_switched_stats,
         post_switched_stats,
-        'no_egm',
-        'all_egm'
+        pre_label,
+        post_label
     )
 
     # Generate report
     comparison_df_list = [
         compare_eval_scores,
+        compare_eval_confusion_matrices,
         compare_eval_counts,
         compare_eval_proba_dist_overall,
         compare_eval_proba_dist_cardio,
@@ -113,6 +140,7 @@ if __name__ == '__main__':
 
     comparison_df_labels = [
         'Testing Subset Evaluation Scores',
+        'Confusion Matrix',
         'Category Counts',
         'Overall Probability Description',
         'Cardiology Labeled Probability Description',
@@ -123,6 +151,6 @@ if __name__ == '__main__':
     evaluate.gen_evaluation_report(
         comparison_df_list,
         comparison_df_labels,
-        output_dir='./evaluation_report/',
-        file_name='evaluation_report'
+        output_dir=output_dir,
+        file_name=report_name
     )
