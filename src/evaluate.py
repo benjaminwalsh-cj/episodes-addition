@@ -81,7 +81,64 @@ def eval_evaluation_scores(
         }
     )
 
+    merged_df = merged_df.sort_values(by=['Category', 'measure'])
+
     return merged_df
+
+
+def load_confusion_matrix(path: str) -> pd.DataFrame:
+    '''Load a persisted confusion matrix
+
+    Args:
+        path (`str`): path to confusion matrix
+    Returns:
+        Pandas dataframe of the confusion matrix
+    '''
+    cm = pd.read_excel(path)
+    cm = cm.rename(
+        columns={
+            'Unnamed: 0': 'Category'
+        }
+    )
+    return cm
+
+
+def eval_confusion_matrices(
+        pre_matrix: pd.DataFrame,
+        post_matrix: pd.DataFrame,
+        pre_label: str,
+        post_label: str,
+        col_count: int) -> pd.DataFrame:
+    '''Generate an evaluation of the confusion matrices produced between pipeline runs
+
+    Args:
+        pre_matrix (`pd.DataFrame`): matrix from original run
+        post_matrix (`pd.DataFrame`): matrix from changed run
+        pre_label (`str`): label for original run
+        post_label (`str`): label from changed run
+    Returns:
+        Evaluation dataframe
+    '''
+    pre_matrix_copy = pre_matrix.copy(deep=True)
+    post_matrix_copy = post_matrix.copy(deep=True)
+
+    # Add labels to category values
+    pre_matrix_copy['Category'] = pre_label + '_' + pre_matrix_copy['Category']
+    post_matrix_copy['Category'] = post_label + \
+        '_' + pre_matrix_copy['Category']
+
+    # Add empty row to separate confusion matrices for greater readability
+    # row = pd.DataFrame([['', '' , '']] , columns=pre_matrix_copy.columns)
+    empty_array = np.empty(shape=(1, col_count))
+    empty_array[:] = np.nan
+    row = pd.DataFrame(empty_array, columns=pre_matrix_copy.columns)
+    # row = row.fillna('')
+
+    # Concat matrices together
+    return_df = pd.concat([pre_matrix_copy, row])
+    return_df = pd.concat([return_df, post_matrix_copy])
+
+    return return_df
 
 
 def load_predictions(path: str) -> pd.DataFrame:
