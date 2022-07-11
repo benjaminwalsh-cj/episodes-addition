@@ -61,7 +61,7 @@ def generate_sf_connections(
 
 
 def generate_episodes_query(
-        base_query: str,
+        query: str,
         npis: list[int],
         max_num_exp: int = 10000) -> str:
     '''Iterate through the NPIs to add them to the base query to generate a
@@ -124,8 +124,8 @@ def generate_episodes_dataframe(
 
 
 def generate_dummy_df_episodes(
-    df_episodes: pd.DataFrame,
-    prepend_value: str = None) -> pd.DataFrame:
+        df_episodes: pd.DataFrame,
+        prepend_value: str = None) -> pd.DataFrame:
     '''Pivot the episodes dataframe, summing the episodes so each NPI has a
     single line
     Args:
