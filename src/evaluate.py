@@ -236,11 +236,12 @@ def eval_class_counts(
     return merge_df
 
 
-def id_changed_labels(
+def compare_labels(
         pre_preds: pd.DataFrame,
         post_preds: pd.DataFrame,
         pre_label: str,
-        post_label: str) -> pd.DataFrame:
+        post_label: str,
+        changed_label_flag: str) -> pd.DataFrame:
     '''Identify and isolate providers who changed labels between pipeline
     runs
     Args:
@@ -248,6 +249,8 @@ def id_changed_labels(
         post_preds (`pd.DataFrame`): changed pipeline run predictions
         pre_label (`str`): string label of initial run
         post_label (`str`): string label of changed run
+        changed_label_flag (`str`) ('y', 'n'): whether to produce a dataframe
+        of providers who's label changed or remained constant across runs
     Returns:
         Dataframe containing providers who changed and their respective labels and
         probabitlies
@@ -256,8 +259,12 @@ def id_changed_labels(
     # Merge together
     merge_df = pre_preds.merge(post_preds, how='inner', on='npi')
 
-    filtered_merge_df = merge_df[merge_df['label_1_x']
-                                 != merge_df['label_1_y']]
+    if changed_label_flag == 'y':
+        filtered_merge_df = merge_df[merge_df['label_1_x']
+                                     != merge_df['label_1_y']]
+    else:
+        filtered_merge_df = merge_df[merge_df['label_1_x']
+                                     == merge_df['label_1_y']]
 
     return_df = filtered_merge_df[
         [
