@@ -1,13 +1,15 @@
 import os
 import logging
 import typing
+from xml.dom.minidom import TypeInfo
 import joblib
 import numpy as np
 import pandas as pd
+from scipy import stats
 
-logger = logging.basicConfig(level='INFO',
-                             format='[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s',
-                             datefmt='%H:%M:%S')
+logging.basicConfig(level='INFO',
+                    format='[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s',
+                    datefmt='%H:%M:%S')
 
 
 def load_evaluation_scores(path: str, label: str) -> pd.DataFrame:
@@ -24,7 +26,7 @@ def load_evaluation_scores(path: str, label: str) -> pd.DataFrame:
     try:
         df = pd.read_excel(path)
     except FileNotFoundError:
-        logger.error('Path to evaluation file is incorrect.')
+        logging.error('Path to evaluation file is incorrect.')
         raise
 
     df['label'] = label
@@ -54,11 +56,11 @@ def eval_evaluation_scores(
     '''
 
     if not isinstance(pre_scores, pd.DataFrame):
-        logger.error('Argument `pre_scores` is not a pandas dataframe.')
+        logging.error('Argument `pre_scores` is not a pandas dataframe.')
         raise TypeError
 
     if not isinstance(post_scores, pd.DataFrame):
-        logger.error('Argument `post_scores` is not a pandas dataframe.')
+        logging.error('Argument `post_scores` is not a pandas dataframe.')
         raise TypeError
 
     # Merge on category and measure
@@ -152,7 +154,7 @@ def load_predictions(path: str) -> pd.DataFrame:
     try:
         df = pd.read_excel(path)
     except FileNotFoundError:
-        logger.error('Could not find predictions at specified path.')
+        logging.error('Could not find predictions at specified path.')
         raise
 
     return df
@@ -286,7 +288,9 @@ def compare_labels(
     return return_df
 
 
-def gen_switched_label_subset(changed_labels_df: pd.DataFrame, train_data_path: str = None) -> pd.DataFrame:
+def gen_switched_label_subset(
+        changed_labels_df: pd.DataFrame,
+        train_data_path: str = None) -> pd.DataFrame:
     '''Generate a randomized selection of providers who changed labels for manual evaluation
     Args:
         changed_labels_df (`pd.Dataframe`): dataframe of providers who changed labels between runs
@@ -341,7 +345,7 @@ def gen_proba_stats(
         try:
             filtered_df = df[df[category_col] == category_value]
         except KeyError:
-            logger.error(
+            logging.error(
                 'Provided category value is not in provided category column.')
 
         summary = filtered_df[proba_col].describe()
@@ -403,7 +407,7 @@ def gen_evaluation_report(
         os.mkdir(f'{output_dir}persisted_dataframes/')
 
     if len(comparison_df_labels) != len(comparison_df_list):
-        logger.error(
+        logging.error(
             'List of dataframes must be the same length as list of dfs.')
         raise ValueError
 
