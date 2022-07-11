@@ -382,6 +382,192 @@ def eval_proba_distributions(
     return return_df
 
 
+def gen_summary_stats(
+        dummy_df: pd.DataFrame,
+        id_vars: list[str],
+        var_name: str) -> pd.DataFrame:
+    '''Generate the summary statitics for a pivoted dataframe.
+    This function was built to evaluate a dummy episodes dataframe,
+    but it can be used with any other dummy pivoted dataframe.
+    Args:
+        dummy_df (`pd.DataFrame`): pd.dummy dataframe with values to evaluate
+        id_vars (`list[str]`): list of col names to be the id variables in the
+        melt
+        var_name (`str`): name of the unpivoted variable col
+    Returns:
+        An unpivoted dataframe of summary statistics that can be joined
+        to a similar dataframe from a different pipeline run.
+    '''
+
+    summary_stats = dummy_df.describe()
+
+    # `describe()` stores the measure in the index but it should be a col for
+    # the melt
+    summary_stats['measure'] = summary_stats.index
+
+    # Add measure order to maintain order down the line if desired
+    summary_stats['measure_order'] = range(8)  # there are 8 stats
+
+    # melt
+    return_df = summary_stats.melt(
+        id_vars=id_vars,
+        var_name=var_name
+    )
+
+    return return_df
+
+
+def eval_summary_stats(
+        summary_stats_pre: pd.DataFrame,
+        summary_stats_post: pd.DataFrame,
+        pre_label: str,
+        post_label: str) -> pd.DataFrame:
+    '''Generate a dataframe comparing the summary stats for
+    two different runs of many columns. Originally built to compare
+    stats from episodes queries.
+    Args:
+        summary_stats_pre (`pd.DataFrame`): summary stats from initial run
+        summary_stats_post (`pd.DataFrame`): summary stats from changed run
+        pre_label (`str`): Label for initial run
+        post_label (`str`): Label for changed run
+    Returns:
+        Dataframe comparing the two statistics summaries
+    '''
+    # Outer join the two dfs in case episodes appear in one and not the other
+    return_df = pd.merge(
+        summary_stats_pre,
+        summary_stats_post,
+        on=['measure', 'episode', 'measure_order'],
+        how='outer'
+    )
+
+    # Relabel
+    return_df = return_df.rename(
+        columns={
+            'value_x': f'{pre_label}_value',
+            'value_y': f'{post_label}_value'
+        }
+    )
+
+    return return_df
+
+
+def gen_mutual_cols_list(
+        df_1: pd.DataFrame,
+        df_2: pd.DataFrame,
+        cols_to_check: typing.Optional[typing.List[str]] = None) -> typing.List[str]:
+    '''Find a list of mututal columns
+    Args:
+        df_1 (`pd.DataFrame`): first dataframe to check
+        df_2 (`pd.DataFrame`): second dataframe to check
+        cols_to_check (`List[str]`): manual list of columns to check. If not
+        `None`, returned list of mutual columns will be max(len(cols_to_check))
+    Returns:
+        List of string column names of cols that are in both dataframes
+    '''
+    # find columns that both dfs have (unable to compare otherwise)
+    if cols_to_check is None:
+        cols = [col for col in df_1.columns if col in df_2.columns]
+    # if manual list to check is passed, check that each col in present in dfs
+    else:
+        cols = []
+        for col in cols_to_check:
+            try:
+                df_1[col]
+                df_2[col]
+            except KeyError:
+                logging.error('Column %s is not in one of the passed dataframes.',
+                              col)
+                continue
+            cols.append(col)
+
+    return cols
+
+
+def gen_ks_results(
+        df_1: pd.DataFrame,
+        df_2: pd.DataFrame,
+        cols: typing.List[str]) -> typing.Tuple[list, list]:
+    '''Generate the ks statistics and p-values for the provided cols by
+    comparing their distributions in the two provided dataframes.
+    Args:
+        df_1 (`pd.DataFrame`): first dataframe to evaluate
+        df_2 (`pd.DataFrame`): second dataframe to evaluate
+        cols (`list[str]`): list of cols to compare
+    Returns:
+        Tuple of lists containing the results for each of the columns
+    '''
+
+    ks_stats = []
+    p_values = []
+    # Generate ks statistic and p-value for each column
+    for col in cols:
+        # subset to only the column
+        df_1_col = df_1[col]
+        df_2_col = df_2[col]
+
+        # calculate the ks results
+        try:
+            results = stats.kstest(df_1_col, df_2_col)
+        except ValueError:
+            logging.error('Could not generate results for column %s. It may not'
+                          ' be continuous.', col)
+            continue
+
+        # add results to respective storage arrays
+        ks_stats.append(results[0])
+        p_values.append(results[1])
+
+    return ks_stats, p_values
+
+
+def eval_ks_test(
+        dummy_df_1: pd.DataFrame,
+        dummy_df_2: pd.DataFrame,
+        label_1: str,
+        label_2: str,
+        cols_to_check: typing.Optional[typing.List[str]] = None) -> pd.DataFrame:
+    '''Perform a two-sided ks test on episodes cols from two different dummy
+    dataframes
+    Args:
+        dummy_df_1 (`pd.DataFrame`): first dummy dataframe with episodes to
+        check
+        dummy_df_2 (`pd.DataFrame`): second dummy dataframe with episodes to
+        check
+        label_1 (`str`): label for dummy_df_1
+        label_2 (`str`): label for dummy_df_2
+        col_to_check (optional: `list[str]`): list of columns to compare.
+        Default is `None`, so all continuous columns will be used.
+    '''
+    # deep copy passed dataframes
+    df_1 = dummy_df_1.copy(deep=True)
+    df_2 = dummy_df_2.copy(deep=True)
+
+    cols = gen_mutual_cols_list(
+        df_1=df_1,
+        df_2=df_2,
+        cols_to_check=cols_to_check
+    )
+
+    # Instantiate empty return dataframe and empty arrays to store values
+    return_df = pd.DataFrame()
+
+    ks_stats, p_values = gen_ks_results(
+        df_1=df_1,
+        df_2=df_2,
+        cols=cols
+    )
+
+    # Format dataframe
+    return_df['episode_type'] = cols
+    return_df['df_1'] = label_1
+    return_df['df_2'] = label_2
+    return_df['ks_value'] = ks_stats
+    return_df['p_value'] = p_values
+
+    return return_df
+
+
 def gen_evaluation_report(
         comparison_df_list: list[pd.DataFrame],
         comparison_df_labels: list[str],
