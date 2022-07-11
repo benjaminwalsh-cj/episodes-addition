@@ -2,12 +2,11 @@ import typing
 import logging
 import json
 import pandas as pd
-import helpers
+from helpers import snowflake_connections
 
-
-logger = logging.basicConfig(level='INFO',
-                             format='[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s',
-                             datefmt='%H:%M:%S')
+logging.basicConfig(level='INFO',
+                    format='[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s',
+                    datefmt='%H:%M:%S')
 
 
 def load_snowflake_config(
@@ -27,13 +26,13 @@ def load_snowflake_config(
             environment_variables = json.load(a)
         environment_variables['WAREHOUSE'] = warehouse
     except FileNotFoundError as e:
-        logger.error('Provided path is incorrect.')
+        logging.error('Provided path is incorrect.')
         raise e
 
     return environment_variables
 
 
-def generate_sf_connections(
+def gen_sf_connection(
     env_variables: dict
 ):
     '''Use helpers.get_sf_connection and the provided warehouse to
@@ -46,7 +45,7 @@ def generate_sf_connections(
     '''
 
     try:
-        sf_connection = helpers.get_snowflake_connection(
+        sf_connection = snowflake_connections.get_snowflake_connection(
             username=env_variables['SNOWFLAKE_USER'],
             password=env_variables['SNOWFLAKE_PASS'],
             account=env_variables['SNOWFLAKE_ACCOUNT_NCI'],
@@ -54,13 +53,14 @@ def generate_sf_connections(
             database=None
         )
     except AttributeError as e:
-        logger.error('Provided dictionary does not contain all required vars.')
+        logging.error(
+            'Provided dictionary does not contain all required vars.')
         raise e
 
     return sf_connection
 
 
-def generate_episodes_query(
+def gen_episodes_query(
         query: str,
         npis: list[int],
         max_num_exp: int = 10000) -> str:
@@ -92,7 +92,7 @@ def generate_episodes_query(
     WHERE ( '''
 
     # Add NPIs to the query
-    for i in range(len(npis) // npis + 1):
+    for i in range(len(npis) // max_num_exp + 1):
         if i <= len(npis) // max_num_exp - 1:
             query += f'egmNpi.FK_PROVIDER_ID IN {tuple(npis[i * max_num_exp : (i + 1) * max_num_exp])} OR '
         else:
@@ -101,7 +101,7 @@ def generate_episodes_query(
     return query
 
 
-def generate_episodes_dataframe(
+def gen_episodes_dataframe(
         sf_connection,
         query: str = None) -> pd.DataFrame:
     '''Query snowflake to generate a dataframe of episodes that
@@ -115,7 +115,7 @@ def generate_episodes_dataframe(
         Dataframe of episodes billed by the provided NPIs
     '''
     # Execute query
-    df_episodes = helpers.fetch_sf_data(sf_connection, query)
+    df_episodes = snowflake_connections.fetch_sf_data(sf_connection, query)
 
     # Modify NPI to be an integer
     df_episodes['npi'] = df_episodes['npi'].astype(int)
@@ -123,7 +123,7 @@ def generate_episodes_dataframe(
     return df_episodes
 
 
-def generate_dummy_df_episodes(
+def gen_dummy_df_episodes(
         df_episodes: pd.DataFrame,
         prepend_value: str = None) -> pd.DataFrame:
     '''Pivot the episodes dataframe, summing the episodes so each NPI has a
@@ -144,8 +144,11 @@ def generate_dummy_df_episodes(
             columns='episode_desc',
             aggfunc='sum'
         )
+        # Fill in null values
+        df_episodes_dummy = df_episodes_dummy.fillna(0.0)
+
     except AttributeError as e:
-        logger.error('Column `count` may be missing from episodes dataframe.')
+        logging.error('Column `count` may be missing from episodes dataframe.')
         raise e
 
     if prepend_value is not None:
