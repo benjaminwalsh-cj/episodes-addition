@@ -58,11 +58,12 @@ if __name__ == '__main__':
     )
 
     # Changed Labels
-    changed_labels = evaluate.id_changed_labels(
+    changed_labels = evaluate.compare_labels(
         pre_preds,
         post_preds,
         pre_label,
-        post_label
+        post_label,
+        'y'
     )
 
     # Get a subset of NPIs to check
