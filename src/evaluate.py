@@ -414,6 +414,9 @@ def gen_summary_stats(
         var_name=var_name
     )
 
+    # Ensure `value` is a float
+    return_df['value'] = return_df['value'].astype(float)
+
     return return_df
 
 
@@ -440,6 +443,9 @@ def eval_summary_stats(
         on=['measure', 'episode', 'measure_order'],
         how='outer'
     )
+
+    # Add delta
+    return_df['delta'] = return_df['value_y'] - return_df['value_x']
 
     # Relabel
     return_df = return_df.rename(
@@ -559,11 +565,17 @@ def eval_ks_test(
     )
 
     # Format dataframe
-    return_df['episode_type'] = cols
+    return_df['episode'] = cols
     return_df['df_1'] = label_1
     return_df['df_2'] = label_2
     return_df['ks_value'] = ks_stats
     return_df['p_value'] = p_values
+
+    # Filter to only statistically significant values
+    return_df = return_df[return_df['p_value'] <= .05]
+
+    # Sort on KS value
+    return_df = return_df.sort_values(by='ks_value', ascending=False)
 
     return return_df
 
