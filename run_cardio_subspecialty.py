@@ -10,7 +10,10 @@ logging.basicConfig(level='INFO',
 
 if __name__ == '__main__':
 
-    # Parameters & Paths
+    #######################################
+    # Parameters, Paths, & Constants
+    #######################################
+
     path_eval_scores_pre = './cardiology/no_egm_subspecialty/results/train/precision_recall_fscore/precision_recall_fscore_file.xlsx'
     path_eval_scores_post = './cardiology/all_egm_subspecialty/results/train/precision_recall_fscore/precision_recall_fscore_file.xlsx'
 
@@ -26,18 +29,30 @@ if __name__ == '__main__':
     pre_label = 'no_egm'
     post_label = 'all_egm'
 
-    train_data_path = None  # './tx_egm_subspecialty/joblib/data.joblib'
+    subspecialties = [
+        'Interventional',
+        'Electrophysiology',
+        'Transplant',
+        'Pediatric',
+        'ACHD'
+    ]
+
+    warehouse = 'LOCAL_BENJAMINWALSH'
+
+    train_data_path = None
 
     path_to_env_variables = './config/local/credentials.json'
 
     # sf_connection
     sf_variables = database.load_snowflake_config(
         path_to_env_file=path_to_env_variables,
-        warehouse='LOCAL_BENJAMINWALSH'
+        warehouse=warehouse
     )
     sf_connection = database.gen_sf_connection(sf_variables)
 
+    #######################################
     # Testing subset evaluation scores
+    #######################################
     pre_eval_scores = evaluate.load_evaluation_scores(
         path_eval_scores_pre, pre_label)
     post_eval_scores = evaluate.load_evaluation_scores(
@@ -46,7 +61,9 @@ if __name__ == '__main__':
     compare_eval_scores = evaluate.eval_evaluation_scores(
         pre_eval_scores, post_eval_scores, pre_label=pre_label, post_label=post_label)
 
+    #######################################
     # Confusion matrices
+    #######################################
     pre_cm = evaluate.load_confusion_matrix(path_cm_pre)
     post_cm = evaluate.load_confusion_matrix(path_cm_post)
 
@@ -58,7 +75,9 @@ if __name__ == '__main__':
         col_count=len(pre_cm.columns)
     )
 
+    #######################################
     # Class counts
+    #######################################
 
     pre_preds = evaluate.load_predictions(path_preds_pre)
     post_preds = evaluate.load_predictions(path_preds_post)
@@ -73,7 +92,9 @@ if __name__ == '__main__':
         post_label
     )
 
+    #######################################
     # Changed Labels
+    #######################################
     changed_labels = evaluate.compare_labels(
         pre_preds,
         post_preds,
@@ -82,15 +103,22 @@ if __name__ == '__main__':
         'y'
     )
 
+    #######################################
     # Get a subset of NPIs to check
+    #######################################
     changed_labels_to_check = evaluate.gen_switched_label_subset(
         changed_labels,
         train_data_path=train_data_path
     )
 
+    #######################################
     # Probability distributions
+    #######################################
 
+    ####################
     # Overall
+    ####################
+
     pre_overall_stats = evaluate.gen_proba_stats(
         pre_preds,
         'probability_1'
@@ -108,14 +136,9 @@ if __name__ == '__main__':
         post_label
     )
 
+    ####################
     # Subspecialties
-
-    subspecialties = ['Interventional',
-                      'Electrophysiology',
-                      'Transplant',
-                      'Pediatric',
-                      'ACHD'
-                      ]
+    ####################
 
     eval_proba_dist_df_list = []
 
@@ -144,7 +167,10 @@ if __name__ == '__main__':
             compare_eval_proba_dist_subspecialty
         )
 
+    ####################
     # Changed Labels
+    ####################
+
     pre_switched_stats = evaluate.gen_proba_stats(
         changed_labels,
         f'{pre_label}_probability_1'
@@ -162,7 +188,10 @@ if __name__ == '__main__':
         post_label
     )
 
+    #######################################
     # Subspecialty Episode-Level Distribution Analysis
+    #######################################
+
     logging.info('Beginning episode distribution analysis')
 
     ks_df_list = []
@@ -311,7 +340,13 @@ if __name__ == '__main__':
     epi_missing_npis[pre_label] = missing_npi_counts[0]
     epi_missing_npis[post_label] = missing_npi_counts[1]
 
+    #######################################
     # Generate report
+    #######################################
+
+    ####################
+    # Create dataframe list
+    ####################
     comparison_df_list = [
         compare_eval_scores,
         compare_eval_confusion_matrices,
@@ -340,6 +375,10 @@ if __name__ == '__main__':
 
     # Add counts of npis missing episodes
     comparison_df_list.append(epi_missing_npis)
+
+    ####################
+    # Create dataframe labels list
+    ####################
 
     comparison_df_labels = [
         'Testing Subset Evaluation Scores',
@@ -372,6 +411,10 @@ if __name__ == '__main__':
     comparison_df_labels.append(
         'Count of NPIs Missing Episodes by Subspecialty')
 
+    ####################
+    # Save report and persist dataframes
+    ####################
+    
     evaluate.gen_evaluation_report(
         comparison_df_list,
         comparison_df_labels,
