@@ -577,6 +577,24 @@ def eval_ks_test(
     # Sort on KS value
     return_df = return_df.sort_values(by='ks_value', ascending=False)
 
+    if return_df.empty == True:
+        if len(cols) == 0:
+            empty_description = 'No mutual columns'
+        elif len(list(filter(lambda x: x <= .05, p_values))) == 0:
+            empty_description = 'No significantly different distributions'
+        else:
+            empty_description = 'Unclear why dataframe is empty'
+        return_df = pd.DataFrame(
+            {
+                'episode': empty_description,
+                'df_1': np.nan,
+                'df_2': np.nan,
+                'ks_value': np.nan,
+                'p_value': np.nan
+            },
+            index=[0]
+        )
+
     return return_df
 
 
