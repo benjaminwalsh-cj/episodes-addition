@@ -1,5 +1,4 @@
 import logging
-from matplotlib.pyplot import subplot
 
 import pandas as pd
 from src import evaluate, database
@@ -305,12 +304,13 @@ if __name__ == '__main__':
         ).sort_values(
             by=['p_value', 'measure_order'],
             ascending=[True, True]
-        ).drop(  # Drop ks_results columns
+        ).drop(  # Drop ks_results columns & measure order
             [
                 'df_1',
                 'df_2',
                 'ks_value',
-                'p_value'
+                'p_value',
+                'measure_order'
             ],
             axis=1
         )
@@ -414,7 +414,7 @@ if __name__ == '__main__':
     ####################
     # Save report and persist dataframes
     ####################
-    
+
     evaluate.gen_evaluation_report(
         comparison_df_list,
         comparison_df_labels,
