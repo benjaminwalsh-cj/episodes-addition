@@ -455,6 +455,18 @@ def eval_summary_stats(
         }
     )
 
+    # Reorder columns
+    return_df = return_df[
+        [
+            'measure_order',
+            'episode',
+            'measure',
+            f'{pre_label}_value',
+            f'{post_label}_value',
+            'delta'
+        ]
+    ]
+
     return return_df
 
 
