@@ -1,4 +1,5 @@
 import logging
+from matplotlib.pyplot import subplot
 
 import pandas as pd
 from src import evaluate, database
@@ -110,101 +111,38 @@ if __name__ == '__main__':
     # Subspecialties
 
     subspecialties = ['Interventional',
-                      #   'Electrophysiology',
-                      #   'Transplant',
-                      #   'Pediatric',
-                      #   'ACHD'
+                      'Electrophysiology',
+                      'Transplant',
+                      'Pediatric',
+                      'ACHD'
                       ]
 
-    # Interventional
-    pre_invervential_stats = evaluate.gen_proba_stats(
-        pre_preds[pre_preds['label_1'] == 'Interventional'],
-        'probability_1'
-    )
+    eval_proba_dist_df_list = []
 
-    post_invervential_stats = evaluate.gen_proba_stats(
-        post_preds[post_preds['label_1'] == 'Interventional'],
-        'probability_1'
-    )
+    for subspecialty in subspecialties:
 
-    compare_eval_proba_dist_interventional = evaluate.eval_proba_distributions(
-        pre_invervential_stats,
-        post_invervential_stats,
-        pre_label,
-        post_label
-    )
+        pre_stats = evaluate.gen_proba_stats(
+            pre_preds[pre_preds['label_1'] == subspecialty],
+            'probability_1'
+        )
 
-    # Electrophysiology
-    pre_electrophysio_stats = evaluate.gen_proba_stats(
-        pre_preds[pre_preds['label_1'] == 'Electrophysiology'],
-        'probability_1'
-    )
+        post_stats = evaluate.gen_proba_stats(
+            post_preds[post_preds['label_1'] == subspecialty],
+            'probability_1'
+        )
 
-    post_electrophysio_stats = evaluate.gen_proba_stats(
-        post_preds[post_preds['label_1'] == 'Electrophysiology'],
-        'probability_1'
-    )
+        compare_eval_proba_dist_subspecialty = evaluate.eval_proba_distributions(
+            pre_stats,
+            post_stats,
+            pre_label,
+            post_label
+        )
 
-    compare_eval_proba_dist_electrophysiology = evaluate.eval_proba_distributions(
-        pre_electrophysio_stats,
-        post_electrophysio_stats,
-        pre_label,
-        post_label
-    )
+        compare_eval_proba_dist_subspecialty.Name = subspecialty
 
-    # Transplant
-    pre_transplant_stats = evaluate.gen_proba_stats(
-        pre_preds[pre_preds['label_1'] == 'Transplant'],
-        'probability_1'
-    )
-
-    post_transplant_stats = evaluate.gen_proba_stats(
-        post_preds[post_preds['label_1'] == 'Transplant'],
-        'probability_1'
-    )
-
-    compare_eval_proba_dist_transplant = evaluate.eval_proba_distributions(
-        pre_transplant_stats,
-        post_transplant_stats,
-        pre_label,
-        post_label
-    )
-
-    # Pediatric
-    pre_pediatric_stats = evaluate.gen_proba_stats(
-        pre_preds[pre_preds['label_1'] == 'Pediatric'],
-        'probability_1'
-    )
-
-    post_pediatric_stats = evaluate.gen_proba_stats(
-        post_preds[post_preds['label_1'] == 'Pediatric'],
-        'probability_1'
-    )
-
-    compare_eval_proba_dist_pediatric = evaluate.eval_proba_distributions(
-        pre_pediatric_stats,
-        post_pediatric_stats,
-        pre_label,
-        post_label
-    )
-
-    # ACHD
-    pre_achd_stats = evaluate.gen_proba_stats(
-        pre_preds[pre_preds['label_1'] == 'ACHD'],
-        'probability_1'
-    )
-
-    post_achd_stats = evaluate.gen_proba_stats(
-        post_preds[post_preds['label_1'] == 'ACHD'],
-        'probability_1'
-    )
-
-    compare_eval_proba_dist_achd = evaluate.eval_proba_distributions(
-        pre_achd_stats,
-        post_achd_stats,
-        pre_label,
-        post_label
-    )
+        eval_proba_dist_df_list.append(
+            compare_eval_proba_dist_subspecialty
+        )
 
     # Changed Labels
     pre_switched_stats = evaluate.gen_proba_stats(
@@ -379,15 +317,18 @@ if __name__ == '__main__':
         compare_eval_confusion_matrices,
         compare_eval_counts,
         compare_eval_proba_dist_overall,
-        compare_eval_proba_dist_interventional,
-        compare_eval_proba_dist_electrophysiology,
-        compare_eval_proba_dist_transplant,
-        compare_eval_proba_dist_pediatric,
-        compare_eval_proba_dist_achd,
         compare_eval_proba_dist_switched,
         changed_labels_to_check
     ]
 
+    # Add subspecialty probability distributions
+    [
+        comparison_df_list.append(
+            proba_df
+        ) for proba_df in eval_proba_dist_df_list
+    ]
+
+    # Add ks and episode distributions
     [
         comparison_df_list.extend(
             [ks_df, stat_df]
@@ -397,6 +338,7 @@ if __name__ == '__main__':
         )
     ]
 
+    # Add counts of npis missing episodes
     comparison_df_list.append(epi_missing_npis)
 
     comparison_df_labels = [
@@ -404,15 +346,18 @@ if __name__ == '__main__':
         'Confusion Matrices',
         'Category Counts',
         'Overall Probability Description',
-        'Interventional Labeled Probability Description',
-        'Electrophysiology Labeled Probability Description',
-        'Transplant Labeled Probability Description',
-        'Pediatric Labeled Probability Description',
-        'ACHD Labeled Probability Description',
         'Switched Labels Probability Description',
         'Switched Labels Manual NPI List'
     ]
 
+    # Add subspecialty proba distribution labels
+    [
+        comparison_df_labels.append(
+            proba_df.Name
+        ) for proba_df in eval_proba_dist_df_list
+    ]
+
+    # Add ks and episode distributions labels
     [
         comparison_df_labels.extend(
             [ks_label.Name,
@@ -423,7 +368,9 @@ if __name__ == '__main__':
         )
     ]
 
-    comparison_df_labels.append('Count of NPIs Missing Episodes by Subspecialty')
+    # Add missing npi label
+    comparison_df_labels.append(
+        'Count of NPIs Missing Episodes by Subspecialty')
 
     evaluate.gen_evaluation_report(
         comparison_df_list,
