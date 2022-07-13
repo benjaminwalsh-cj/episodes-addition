@@ -658,6 +658,60 @@ def eval_ks_test(
     return return_df
 
 
+def eval_missing_npis(
+        subspecialties: typing.List[str],
+        pre_label: str,
+        post_label: str,
+        missing_npi_counts_array: typing.List[typing.List[int]],
+        eval_counts_df: pd.DataFrame) -> pd.DataFrame:
+    '''Generate an evaluation dataframe of NPIs missing episodes
+    Args:
+        subspecialty_label (`list[str]`): list of subspecialties
+        pre_label: label for the original run
+        post_label: label for the changed run
+        missing_npi_counts_array (`list[list[int]]`) two dimensional array
+        containing counts of missing npis by subspecialty index for the pre
+        (idx 0) and post (idx 1) runs
+        eval_counts_df (`pd.DataFrame`): dataframe of counts created with
+        `eval_class_counts`.
+    Returns:
+        Evaluation dataframe of NPI counts and proportions for those missing
+        episodes.
+    '''
+    # Instantiate dataframe
+    return_df = pd.DataFrame()
+
+    # Set up initial structure
+    return_df['subspecialty'] = subspecialties
+    return_df[pre_label] = missing_npi_counts_array[0]
+    return_df[post_label] = missing_npi_counts_array[1]
+
+    # Merge counts df to generate proportions
+    return_df = return_df.merge(
+        eval_counts_df,
+        left_on='subspecialty',
+        right_on='category',
+        how='inner'
+    )
+
+    # Generate proportions
+    return_df[f'{pre_label}_prop'] = return_df[pre_label] / \
+        return_df[f'{pre_label}_count']
+    return_df[f'{post_label}_prop'] = return_df[post_label] / \
+        return_df[f'{post_label}_count']
+
+    # Drop counts df columns
+    return_df = return_df.drop(
+        ['category',
+         f'{pre_label}_count',
+         f'{post_label}_count',
+         'delta'],
+        axis=1
+    )
+
+    return return_df
+
+
 def gen_evaluation_report(
         comparison_df_list: list[pd.DataFrame],
         comparison_df_labels: list[str],
