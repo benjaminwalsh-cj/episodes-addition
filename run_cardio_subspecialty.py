@@ -103,6 +103,17 @@ if __name__ == '__main__':
     )
 
     #######################################
+    # Static Labels
+    #######################################
+    static_labels = evaluate.compare_labels(
+        pre_preds,
+        post_preds,
+        pre_label,
+        post_label,
+        'n'
+    )
+
+    #######################################
     # Get a subset of NPIs to check
     #######################################
     changed_labels_to_check = evaluate.gen_switched_label_subset(
@@ -202,8 +213,14 @@ if __name__ == '__main__':
         # Subset predictions to only the subspecialy of interest
         pre_subspecialty = pre_preds[pre_preds['label_1'] == subspecialty]
         post_subspecialty = post_preds[post_preds['label_1'] == subspecialty]
+        static_subspecialty = static_labels[static_labels[f'{post_label}_label_1']
+                                            == subspecialty]
+        changed_subspecialty = changed_labels[changed_labels[f'{post_label}_label_1']
+                                              == subspecialty]
 
+        ####################
         # Pre
+        ####################
 
         # Generate the full query for the pre run
         pre_subspecialty_episodes_query = database.gen_episodes_query(
@@ -238,7 +255,9 @@ if __name__ == '__main__':
 
         logging.debug(f'{subspecialty} (pre) dataframes completed.')
 
+        ####################
         # Post
+        ####################
 
         # Generate the full query for the post run
         post_subspecialty_episodes_query = database.gen_episodes_query(
@@ -273,6 +292,66 @@ if __name__ == '__main__':
 
         logging.debug(f'{subspecialty} (post) dataframes completed.')
 
+        ####################
+        # Static labels
+        ####################
+
+        # Generate the full query for the post run
+        static_subspecialty_episodes_query = database.gen_episodes_query(
+            query=None,  # Default query within function will handle it
+            npis=static_subspecialty['npi'].to_list()
+        )
+
+        # Query the db and generate the full episodes dataframe
+        static_subspecialty_episodes_df = database.gen_episodes_dataframe(
+            sf_connection=sf_connection,
+            query=static_subspecialty_episodes_query
+        )
+
+        # Pivot the episodes dataframe
+        static_subspecialty_episodes_dummy_df = database.gen_dummy_df_episodes(
+            df_episodes=static_subspecialty_episodes_df
+        )
+
+        # Generate the summary stats and restructure the returned df
+        static_subspecialty_episodes_stats = evaluate.gen_summary_stats(
+            static_subspecialty_episodes_dummy_df,
+            id_vars=['measure', 'measure_order'],
+            var_name='episode'
+        )
+
+        logging.debug(f'{subspecialty} (static) dataframes completed.')
+
+        ####################
+        # Changed labels
+        ####################
+
+        # Generate the full query for the post run
+        changed_subspecialty_episodes_query = database.gen_episodes_query(
+            query=None,  # Default query within function will handle it
+            npis=changed_subspecialty['npi'].to_list()
+        )
+
+        # Query the db and generate the full episodes dataframe
+        changed_subspecialty_episodes_df = database.gen_episodes_dataframe(
+            sf_connection=sf_connection,
+            query=changed_subspecialty_episodes_query
+        )
+
+        # Pivot the episodes dataframe
+        changed_subspecialty_episodes_dummy_df = database.gen_dummy_df_episodes(
+            df_episodes=changed_subspecialty_episodes_df
+        )
+
+        # Generate the summary stats and restructure the returned df
+        changed_subspecialty_episodes_stats = evaluate.gen_summary_stats(
+            changed_subspecialty_episodes_dummy_df,
+            id_vars=['measure', 'measure_order'],
+            var_name='episode'
+        )
+
+        logging.debug(f'{subspecialty} (changed) dataframes completed.')
+
         # Calculate the KS stats and p-values for each mutual column
         ks_results_subspecialty = evaluate.eval_ks_test(
             pre_subspecialty_episodes_dummy_df,
@@ -301,7 +380,7 @@ if __name__ == '__main__':
             ks_results_subspecialty,
             on='episode',
             how='inner'
-        ).sort_values(
+        ).sort_values(  # Ensure the most significant difference is first
             by=['p_value', 'measure_order'],
             ascending=[True, True]
         ).drop(  # Drop ks_results columns & measure order
@@ -313,6 +392,19 @@ if __name__ == '__main__':
                 'measure_order'
             ],
             axis=1
+        )
+
+        # Merge static and changed label distributions
+        compare_eval_epi_distributions_return = evaluate.gen_merged_stats_df(
+            compare_eval_epi_distributions_return,
+            [
+                static_subspecialty_episodes_stats,
+                changed_subspecialty_episodes_stats
+            ],
+            [
+                'static',
+                'changed'
+            ]
         )
 
         # Add name for easier readability
@@ -335,11 +427,15 @@ if __name__ == '__main__':
         )
 
     # Generate dataframe of missing npi counts
-    epi_missing_npis = pd.DataFrame()
-    epi_missing_npis['subspecialty'] = subspecialties
-    epi_missing_npis[pre_label] = missing_npi_counts[0]
-    epi_missing_npis[post_label] = missing_npi_counts[1]
 
+    epi_missing_npis = evaluate.eval_missing_npis(
+        subspecialties=subspecialties,
+        pre_label=pre_label,
+        post_label=post_label,
+        missing_npi_counts_array=missing_npi_counts,
+        eval_counts_df=compare_eval_counts
+    )
+    
     #######################################
     # Generate report
     #######################################
