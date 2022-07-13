@@ -1,8 +1,8 @@
 import os
 import logging
 import typing
-from xml.dom.minidom import TypeInfo
 import joblib
+from matplotlib.pyplot import draw_if_interactive
 import numpy as np
 import pandas as pd
 from scipy import stats
@@ -468,6 +468,54 @@ def eval_summary_stats(
     ]
 
     return return_df
+
+
+def gen_merged_stats_df(
+        eval_df: pd.DataFrame,
+        stats_df_list: typing.List[pd.DataFrame],
+        stats_df_labels: typing.List[str]) -> pd.DataFrame:
+    '''Merge a stats evaluation dataframe with secondary stats dfs
+    Args:
+        eval_df (`pd.DataFrame`): evaluation dataframe
+        stats_df_list (`list[pd.DataFrame]`): list of secondary stats dfs
+        stats_df_labels (`list[str]`): list of labels for secondary dfs
+    Returns:
+        Merged dataframe
+    '''
+
+    if len(stats_df_list) != len(stats_df_labels):
+        logging.error('`stats_df_list` must be same length as `stats_df_labels'
+                      )
+        raise ValueError
+
+    merge_df = eval_df.merge(
+        stats_df_list[0],
+        on=['episode', 'measure'],
+        how='left'
+    ).rename(
+        columns={
+            'value': f'{stats_df_labels[0]}_value'
+        }
+    ).drop(
+        'measure_order',
+        axis=1
+    )
+
+    for df_idx in range(1, len(stats_df_list)):
+        merge_df = merge_df.merge(
+            stats_df_list[df_idx],
+            on=['episode', 'measure'],
+            how='left'
+        ).rename(
+            columns={
+                'value': f'{stats_df_labels[df_idx]}_value'
+            }
+        ).drop(
+            'measure_order',
+            axis=1
+        )
+
+    return merge_df
 
 
 def gen_mutual_cols_list(
