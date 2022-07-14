@@ -1,3 +1,4 @@
+from multiprocessing import dummy
 import os
 import logging
 import typing
@@ -550,12 +551,13 @@ def gen_mutual_cols_list(
     return cols
 
 
-def gen_ks_results(
+def gen_distribution_results(
         df_1: pd.DataFrame,
         df_2: pd.DataFrame,
         cols: typing.List[str]) -> typing.Tuple[list, list]:
-    '''Generate the ks statistics and p-values for the provided cols by
-    comparing their distributions in the two provided dataframes.
+    '''Generate the ks t-test statistics and their resepective p-values for the
+    provided cols by comparing their distributions in the two provided 
+    dataframes.
     Args:
         df_1 (`pd.DataFrame`): first dataframe to evaluate
         df_2 (`pd.DataFrame`): second dataframe to evaluate
@@ -565,7 +567,9 @@ def gen_ks_results(
     '''
 
     ks_stats = []
-    p_values = []
+    ks_p_values = []
+    t_stats = []
+    t_p_values = []
     # Generate ks statistic and p-value for each column
     for col in cols:
         # subset to only the column
@@ -574,26 +578,30 @@ def gen_ks_results(
 
         # calculate the ks results
         try:
-            results = stats.kstest(df_1_col, df_2_col)
+            ks_results = stats.kstest(df_1_col, df_2_col)
+            t_results = stats.ttest_ind(df_1_col, df_2_col)
         except ValueError:
             logging.error('Could not generate results for column %s. It may not'
                           ' be continuous.', col)
             continue
 
         # add results to respective storage arrays
-        ks_stats.append(results[0])
-        p_values.append(results[1])
+        ks_stats.append(ks_results[0])
+        ks_p_values.append(ks_results[1])
+        t_stats.append(t_results[0])
+        t_p_values.append(t_results[1])
 
-    return ks_stats, p_values
+    return ks_stats, ks_p_values, t_stats, t_p_values
 
 
-def eval_ks_test(
+def eval_distribution_tests(
         dummy_df_1: pd.DataFrame,
         dummy_df_2: pd.DataFrame,
         label_1: str,
         label_2: str,
         cols_to_check: typing.Optional[typing.List[str]] = None) -> pd.DataFrame:
-    '''Perform a two-sided ks test on episodes cols from two different dummy
+    '''Perform a two-sided ks and t tests on episodes cols from two different
+    dummy
     dataframes
     Args:
         dummy_df_1 (`pd.DataFrame`): first dummy dataframe with episodes to
@@ -618,7 +626,7 @@ def eval_ks_test(
     # Instantiate empty return dataframe and empty arrays to store values
     return_df = pd.DataFrame()
 
-    ks_stats, p_values = gen_ks_results(
+    ks_stats, ks_p_value, t_stat, t_p_value = gen_distribution_results(
         df_1=df_1,
         df_2=df_2,
         cols=cols
@@ -629,10 +637,15 @@ def eval_ks_test(
     return_df['df_1'] = label_1
     return_df['df_2'] = label_2
     return_df['ks_value'] = ks_stats
-    return_df['p_value'] = p_values
+    return_df['ks_p_value'] = ks_p_value
+    return_df['t_statistic'] = t_stat
+    return_df['t_p_value'] = t_p_value
 
     # Filter to only statistically significant values
-    return_df = return_df[return_df['p_value'] <= .05]
+    return_df = return_df[
+        (return_df['ks_p_value'] <= .05) |
+        (return_df['t_p_value'] <= .05)
+    ]
 
     # Sort on KS value
     return_df = return_df.sort_values(by='ks_value', ascending=False)
@@ -640,7 +653,7 @@ def eval_ks_test(
     if return_df.empty == True:
         if len(cols) == 0:
             empty_description = 'No mutual columns'
-        elif len(list(filter(lambda x: x <= .05, p_values))) == 0:
+        elif len(list(filter(lambda x: x <= .05, ks_p_value))) == 0:
             empty_description = 'No significantly different distributions'
         else:
             empty_description = 'Unclear why dataframe is empty'
@@ -650,7 +663,9 @@ def eval_ks_test(
                 'df_1': np.nan,
                 'df_2': np.nan,
                 'ks_value': np.nan,
-                'p_value': np.nan
+                'ks_p_value': np.nan,
+                't_statistic': np.nan,
+                't_p_value': np.nan
             },
             index=[0]
         )
