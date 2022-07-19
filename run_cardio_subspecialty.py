@@ -14,19 +14,19 @@ if __name__ == '__main__':
     #######################################
 
     path_eval_scores_pre = './cardiology/no_egm_subspecialty/results/train/precision_recall_fscore/precision_recall_fscore_file.xlsx'
-    path_eval_scores_post = './cardiology/all_egm_subspecialty/results/train/precision_recall_fscore/precision_recall_fscore_file.xlsx'
+    path_eval_scores_post = './cardiology/tx_egm_subspecialty/results/train/precision_recall_fscore/precision_recall_fscore_file.xlsx'
 
     path_cm_pre = './cardiology/no_egm_subspecialty/results/train/confusion_matrix/confusion_matrix_file.xlsx'
-    path_cm_post = './cardiology/all_egm_subspecialty/results/train/confusion_matrix/confusion_matrix_file.xlsx'
+    path_cm_post = './cardiology/tx_egm_subspecialty/results/train/confusion_matrix/confusion_matrix_file.xlsx'
 
     path_preds_pre = './cardiology/no_egm_subspecialty/results/propagate/prediction/prediction.xlsx'
-    path_preds_post = './cardiology/all_egm_subspecialty/results/propagate/prediction/prediction.xlsx'
+    path_preds_post = './cardiology/tx_egm_subspecialty/results/propagate/prediction/prediction.xlsx'
 
-    output_dir = './cardiology/evaluation_report/subspecialty_no_all/'
-    report_name = 'subspecialty_no_all'
+    output_dir = './cardiology/evaluation_report/subspecialty_no_tx/'
+    report_name = 'subspecialty_no_tx'
 
     pre_label = 'no_egm'
-    post_label = 'all_egm'
+    post_label = 'tx_egm'
 
     subspecialties = [
         'Interventional',
@@ -353,14 +353,14 @@ if __name__ == '__main__':
         logging.debug(f'{subspecialty} (changed) dataframes completed.')
 
         # Calculate the KS stats and p-values for each mutual column
-        ks_results_subspecialty = evaluate.eval_ks_test(
+        ks_results_subspecialty = evaluate.eval_distribution_tests(
             pre_subspecialty_episodes_dummy_df,
             post_subspecialty_episodes_dummy_df,
             label_1=pre_label,
             label_2=post_label
         )
 
-        ks_results_subspecialty.Name = subspecialty
+        ks_results_subspecialty.Name = f'{subspecialty}_distribution_measurements'
 
         # Compare summary stats
         compare_eval_epi_distributions = evaluate.eval_summary_stats(
@@ -381,14 +381,16 @@ if __name__ == '__main__':
             on='episode',
             how='inner'
         ).sort_values(  # Ensure the most significant difference is first
-            by=['p_value', 'measure_order'],
-            ascending=[True, True]
+            by=['ks_p_value', 't_p_value', 'episode', 'measure_order'],
+            ascending=[True, True, True, True]
         ).drop(  # Drop ks_results columns & measure order
             [
                 'df_1',
                 'df_2',
                 'ks_value',
-                'p_value',
+                'ks_p_value',
+                't_statistic',
+                't_p_value',
                 'measure_order'
             ],
             axis=1
@@ -435,7 +437,7 @@ if __name__ == '__main__':
         missing_npi_counts_array=missing_npi_counts,
         eval_counts_df=compare_eval_counts
     )
-    
+
     #######################################
     # Generate report
     #######################################

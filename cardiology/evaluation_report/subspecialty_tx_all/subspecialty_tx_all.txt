@@ -49,61 +49,6 @@ min        0.208980      0.211452  0.002472
 75%        0.880971      0.881268  0.000296
 max        1.000000      1.000000  0.000000
 
-Interventional Labeled Probability Description
-             tx_egm       all_egm       delta
-count  21185.000000  21539.000000  354.000000
-mean       0.630355      0.626226   -0.004129
-std        0.245580      0.245346   -0.000234
-min        0.215641      0.220385    0.004744
-25%        0.405023      0.404191   -0.000832
-50%        0.552156      0.537175   -0.014981
-75%        0.907031      0.905050   -0.001981
-max        0.999551      0.998968   -0.000583
-
-Electrophysiology Labeled Probability Description
-            tx_egm      all_egm      delta
-count  5523.000000  5435.000000 -88.000000
-mean      0.684550     0.687615   0.003065
-std       0.275915     0.276615   0.000700
-min       0.218412     0.226561   0.008149
-25%       0.405269     0.405119  -0.000150
-50%       0.708057     0.725907   0.017850
-75%       0.976438     0.977710   0.001272
-max       1.000000     1.000000   0.000000
-
-Transplant Labeled Probability Description
-            tx_egm      all_egm       delta
-count  6071.000000  5808.000000 -263.000000
-mean      0.460334     0.462897    0.002564
-std       0.178010     0.179740    0.001730
-min       0.218696     0.211452   -0.007244
-25%       0.344504     0.346232    0.001728
-50%       0.401127     0.402236    0.001110
-75%       0.493582     0.492992   -0.000589
-max       0.993151     0.991667   -0.001483
-
-Pediatric Labeled Probability Description
-            tx_egm      all_egm      delta
-count  1491.000000  1521.000000  30.000000
-mean      0.528721     0.524149  -0.004572
-std       0.129790     0.125843  -0.003948
-min       0.230337     0.217949  -0.012389
-25%       0.455310     0.454607  -0.000703
-50%       0.535963     0.534558  -0.001406
-75%       0.618712     0.608903  -0.009809
-max       0.948379     0.929199  -0.019180
-
-ACHD Labeled Probability Description
-           tx_egm     all_egm      delta
-count  818.000000  785.000000 -33.000000
-mean     0.481904    0.484271   0.002366
-std      0.135211    0.138559   0.003348
-min      0.208980    0.223397   0.014417
-25%      0.385703    0.391083   0.005380
-50%      0.481776    0.482803   0.001027
-75%      0.544404    0.550179   0.005775
-max      0.886256    0.884865  -0.001391
-
 Switched Labels Probability Description
             tx_egm      all_egm     delta
 count  2014.000000  2014.000000  0.000000
@@ -117,34 +62,298 @@ max       0.529038     0.527820 -0.001218
 
 Switched Labels Manual NPI List
               npi     tx_egm_label_1  tx_egm_probability_1    all_egm_label_1  all_egm_probability_1 manual_label
-20508  1619924446  Electrophysiology              0.454549     Interventional               0.447366             
-21249  1548293061     Interventional              0.444519  Electrophysiology               0.423220             
-21390  1902850688     Interventional              0.442644  Electrophysiology               0.454398             
-22889  1790935005  Electrophysiology              0.425084     Interventional               0.413364             
-23332  1285671800         Transplant              0.420567     Interventional               0.390399             
-23383  1710155916  Electrophysiology              0.420037     Interventional               0.391750             
-24032  1598745838         Transplant              0.412973     Interventional               0.362824             
-25048  1114192804         Transplant              0.402127     Interventional               0.386004             
-25885  1417258872  Electrophysiology              0.393606     Interventional               0.372281             
-26590  1063466423         Transplant              0.386963     Interventional               0.374395             
-26752  1285645200         Transplant              0.385574     Interventional               0.386107             
-27380  1932355146         Transplant              0.379332     Interventional               0.367444             
-27473  1639295686         Transplant              0.378369     Interventional               0.397849             
-27877  1619291531         Transplant              0.374190     Interventional               0.392209             
-28518  1841289691     Interventional              0.367338         Transplant               0.381160             
-29088  1396737854         Transplant              0.361246  Electrophysiology               0.348819             
-30024  1336123215         Transplant              0.351116     Interventional               0.359949             
-30118  1518084664     Interventional              0.350044  Electrophysiology               0.349802             
-30529  1750541181         Transplant              0.345963  Electrophysiology               0.357492             
-30614  1205892957  Electrophysiology              0.344984     Interventional               0.374640             
-31596  1568401560         Transplant              0.333242     Interventional               0.352056             
-32490  1801868336     Interventional              0.321246         Transplant               0.331485             
-32838  1427094267     Interventional              0.316001         Transplant               0.341871             
-33518  1801055843         Transplant              0.304946          Pediatric               0.276519             
-33549  1255443578  Electrophysiology              0.304216     Interventional               0.320563             
-34122  1922186816         Transplant              0.290708     Interventional               0.297864             
-34380  1649244898     Interventional              0.282982         Transplant               0.293743             
+18560  1306821558          Pediatric              0.483905               ACHD               0.452408             
+18985  1649326232               ACHD              0.477089          Pediatric               0.489832             
+19894  1225019136     Interventional              0.463235  Electrophysiology               0.431499             
+22613  1972523603     Interventional              0.428285         Transplant               0.436891             
+23580  1760656151     Interventional              0.417925         Transplant               0.446519             
+23861  1932147154         Transplant              0.414897     Interventional               0.425628             
+26812  1013190651     Interventional              0.385047         Transplant               0.392897             
+27085  1750491064         Transplant              0.382245     Interventional               0.370363             
+27143  1073573879     Interventional              0.381622         Transplant               0.379475             
+27801  1871526343         Transplant              0.375033     Interventional               0.392724             
+28165  1578574232     Interventional              0.371048         Transplant               0.354940             
+28241  1386634384  Electrophysiology              0.370194     Interventional               0.388306             
+28570  1194752352     Interventional              0.366834         Transplant               0.374919             
+29272  1932601903  Electrophysiology              0.359395     Interventional               0.330752             
+29605  1073566675  Electrophysiology              0.355692     Interventional               0.386636             
+30725  1477549103     Interventional              0.343464  Electrophysiology               0.360277             
+31251  1336250950         Transplant              0.337663     Interventional               0.337488             
+31733  1770646515     Interventional              0.331480         Transplant               0.362196             
+32626  1942246178         Transplant              0.318927     Interventional               0.304233             
+33639  1013005461     Interventional              0.302471         Transplant               0.307668             
+33660  1699726752         Transplant              0.302110     Interventional               0.299688             
+33868  1528018314     Interventional              0.296902         Transplant               0.267535             
+33948  1629071360     Interventional              0.295125         Transplant               0.314056             
+34335  1316906456  Electrophysiology              0.284728         Transplant               0.330753             
 34486  1750532891  Electrophysiology              0.279549         Transplant               0.295733             
-34876  1174631196         Transplant              0.260215     Interventional               0.243135             
-35058  1396721312         Transplant              0.237061  Electrophysiology               0.258246             
+34509  1346255650               ACHD              0.278836     Interventional               0.303447             
+34595  1215198379     Interventional              0.274874  Electrophysiology               0.294944             
+34801  1871593384         Transplant              0.264786  Electrophysiology               0.295314             
+34880  1942530977         Transplant              0.259846  Electrophysiology               0.254284             
+34921  1164698569     Interventional              0.256807          Pediatric               0.277375             
+
+Interventional
+             tx_egm       all_egm       delta
+count  21185.000000  21539.000000  354.000000
+mean       0.630355      0.626226   -0.004129
+std        0.245580      0.245346   -0.000234
+min        0.215641      0.220385    0.004744
+25%        0.405023      0.404191   -0.000832
+50%        0.552156      0.537175   -0.014981
+75%        0.907031      0.905050   -0.001981
+max        0.999551      0.998968   -0.000583
+
+Electrophysiology
+            tx_egm      all_egm      delta
+count  5523.000000  5435.000000 -88.000000
+mean      0.684550     0.687615   0.003065
+std       0.275915     0.276615   0.000700
+min       0.218412     0.226561   0.008149
+25%       0.405269     0.405119  -0.000150
+50%       0.708057     0.725907   0.017850
+75%       0.976438     0.977710   0.001272
+max       1.000000     1.000000   0.000000
+
+Transplant
+            tx_egm      all_egm       delta
+count  6071.000000  5808.000000 -263.000000
+mean      0.460334     0.462897    0.002564
+std       0.178010     0.179740    0.001730
+min       0.218696     0.211452   -0.007244
+25%       0.344504     0.346232    0.001728
+50%       0.401127     0.402236    0.001110
+75%       0.493582     0.492992   -0.000589
+max       0.993151     0.991667   -0.001483
+
+Pediatric
+            tx_egm      all_egm      delta
+count  1491.000000  1521.000000  30.000000
+mean      0.528721     0.524149  -0.004572
+std       0.129790     0.125843  -0.003948
+min       0.230337     0.217949  -0.012389
+25%       0.455310     0.454607  -0.000703
+50%       0.535963     0.534558  -0.001406
+75%       0.618712     0.608903  -0.009809
+max       0.948379     0.929199  -0.019180
+
+ACHD
+           tx_egm     all_egm      delta
+count  818.000000  785.000000 -33.000000
+mean     0.481904    0.484271   0.002366
+std      0.135211    0.138559   0.003348
+min      0.208980    0.223397   0.014417
+25%      0.385703    0.391083   0.005380
+50%      0.481776    0.482803   0.001027
+75%      0.544404    0.550179   0.005775
+max      0.886256    0.884865  -0.001391
+
+Interventional_distribution_measurements
+                                    episode  df_1  df_2  ks_value  ks_p_value  t_statistic  t_p_value
+0  No significantly different distributions   NaN   NaN       NaN         NaN          NaN        NaN
+
+Interventional
+Empty DataFrame
+Columns: [tx_egm_value, all_egm_value, delta, static_value, measure, episode, changed_value]
+Index: []
+
+Electrophysiology_distribution_measurements
+                                                         episode    df_1     df_2  ks_value  ks_p_value  t_statistic  t_p_value
+84                      cvas - cardiac - heart failure (chronic)  tx_egm  all_egm  0.021183    0.234812     2.181799   0.029149
+87                       cvas - cardiac - ischemic heart disease  tx_egm  all_egm  0.020164    0.286410     2.260854   0.023791
+95                    cvas - cardiac - valve ds aortic (chronic)  tx_egm  all_egm  0.019839    0.304478     2.004130   0.045085
+96                    cvas - cardiac - valve ds mitral (chronic)  tx_egm  all_egm  0.018983    0.355766     2.115334   0.034428
+70                             cvas - arterial - peripheral asvd  tx_egm  all_egm  0.018561    0.383014     2.604828   0.009206
+75                           cvas - cardiac - acs other than ami  tx_egm  all_egm  0.018336    0.398113     2.088915   0.036742
+274  neur - cerebrovasc - cerebrovascular disease, occlusive/nos  tx_egm  all_egm  0.015281    0.631120     2.320079   0.020358
+73                    cvas - arterial - thoracic aortic aneurysm  tx_egm  all_egm  0.010811    0.941171     2.336143   0.019505
+62                   cvas - arterial - abdominal aortic aneurysm  tx_egm  all_egm  0.007412    0.999342     2.174187   0.029716
+14                                Px - gi - gi - gerd procedures  tx_egm  all_egm  0.006707    0.999903    -2.024887   0.042907
+
+Electrophysiology
+                                                        episode measure  tx_egm_value  all_egm_value      delta  static_value  changed_value
+0                      cvas - cardiac - heart failure (chronic)   count   4740.000000    4710.000000 -30.000000   4424.000000     286.000000
+1                      cvas - cardiac - heart failure (chronic)    mean      1.940295       1.866242  -0.074053      1.913653       1.132867
+2                      cvas - cardiac - heart failure (chronic)     std      1.652056       1.647390  -0.004666      1.643093       1.538912
+3                      cvas - cardiac - heart failure (chronic)     min      0.000000       0.000000   0.000000      0.000000       0.000000
+4                      cvas - cardiac - heart failure (chronic)     25%      0.000000       0.000000   0.000000      0.000000       0.000000
+5                      cvas - cardiac - heart failure (chronic)     50%      3.000000       2.000000  -1.000000      2.000000       0.000000
+6                      cvas - cardiac - heart failure (chronic)     75%      3.000000       3.000000   0.000000      3.000000       3.000000
+7                      cvas - cardiac - heart failure (chronic)     max      9.000000       9.000000   0.000000      9.000000       6.000000
+8                       cvas - cardiac - ischemic heart disease   count   4740.000000    4710.000000 -30.000000   4424.000000     286.000000
+9                       cvas - cardiac - ischemic heart disease    mean      2.310970       2.230998  -0.079973      2.264241       1.716783
+10                      cvas - cardiac - ischemic heart disease     std      1.724275       1.714285  -0.009990      1.705155       1.775130
+11                      cvas - cardiac - ischemic heart disease     min      0.000000       0.000000   0.000000      0.000000       0.000000
+12                      cvas - cardiac - ischemic heart disease     25%      0.000000       0.000000   0.000000      0.000000       0.000000
+13                      cvas - cardiac - ischemic heart disease     50%      3.000000       3.000000   0.000000      3.000000       2.000000
+14                      cvas - cardiac - ischemic heart disease     75%      3.000000       3.000000   0.000000      3.000000       3.000000
+15                      cvas - cardiac - ischemic heart disease     max      9.000000       9.000000   0.000000      9.000000       7.000000
+16                   cvas - cardiac - valve ds aortic (chronic)   count   4740.000000    4710.000000 -30.000000   4424.000000     286.000000
+17                   cvas - cardiac - valve ds aortic (chronic)    mean      1.168987       1.108493  -0.060495      1.093580       1.339161
+18                   cvas - cardiac - valve ds aortic (chronic)     std      1.484082       1.449919  -0.034163      1.448276       1.458311
+19                   cvas - cardiac - valve ds aortic (chronic)     min      0.000000       0.000000   0.000000      0.000000       0.000000
+20                   cvas - cardiac - valve ds aortic (chronic)     25%      0.000000       0.000000   0.000000      0.000000       0.000000
+21                   cvas - cardiac - valve ds aortic (chronic)     50%      0.000000       0.000000   0.000000      0.000000       1.000000
+22                   cvas - cardiac - valve ds aortic (chronic)     75%      3.000000       3.000000   0.000000      3.000000       3.000000
+23                   cvas - cardiac - valve ds aortic (chronic)     max      6.000000       6.000000   0.000000      6.000000       5.000000
+24                   cvas - cardiac - valve ds mitral (chronic)   count   4740.000000    4710.000000 -30.000000   4424.000000     286.000000
+25                   cvas - cardiac - valve ds mitral (chronic)    mean      1.080591       1.018896  -0.061695      1.011528       1.132867
+26                   cvas - cardiac - valve ds mitral (chronic)     std      1.435922       1.398913  -0.037009      1.396550       1.432641
+27                   cvas - cardiac - valve ds mitral (chronic)     min      0.000000       0.000000   0.000000      0.000000       0.000000
+28                   cvas - cardiac - valve ds mitral (chronic)     25%      0.000000       0.000000   0.000000      0.000000       0.000000
+29                   cvas - cardiac - valve ds mitral (chronic)     50%      0.000000       0.000000   0.000000      0.000000       0.000000
+30                   cvas - cardiac - valve ds mitral (chronic)     75%      3.000000       3.000000   0.000000      3.000000       3.000000
+31                   cvas - cardiac - valve ds mitral (chronic)     max      6.000000       6.000000   0.000000      6.000000       5.000000
+32                            cvas - arterial - peripheral asvd   count   4740.000000    4710.000000 -30.000000   4424.000000     286.000000
+33                            cvas - arterial - peripheral asvd    mean      0.352743       0.305732  -0.047010      0.301763       0.367133
+34                            cvas - arterial - peripheral asvd     std      0.905100       0.848186  -0.056914      0.841785       0.941166
+35                            cvas - arterial - peripheral asvd     min      0.000000       0.000000   0.000000      0.000000       0.000000
+36                            cvas - arterial - peripheral asvd     25%      0.000000       0.000000   0.000000      0.000000       0.000000
+37                            cvas - arterial - peripheral asvd     50%      0.000000       0.000000   0.000000      0.000000       0.000000
+38                            cvas - arterial - peripheral asvd     75%      0.000000       0.000000   0.000000      0.000000       0.000000
+39                            cvas - arterial - peripheral asvd     max      8.000000       8.000000   0.000000      8.000000       5.000000
+40                          cvas - cardiac - acs other than ami   count   4740.000000    4710.000000 -30.000000   4424.000000     286.000000
+41                          cvas - cardiac - acs other than ami    mean      1.002321       0.943100  -0.059221      0.943038       0.944056
+42                          cvas - cardiac - acs other than ami     std      1.395209       1.360389  -0.034820      1.359906       1.370241
+43                          cvas - cardiac - acs other than ami     min      0.000000       0.000000   0.000000      0.000000       0.000000
+44                          cvas - cardiac - acs other than ami     25%      0.000000       0.000000   0.000000      0.000000       0.000000
+45                          cvas - cardiac - acs other than ami     50%      0.000000       0.000000   0.000000      0.000000       0.000000
+46                          cvas - cardiac - acs other than ami     75%      3.000000       2.000000  -1.000000      2.000000       2.000000
+47                          cvas - cardiac - acs other than ami     max      8.000000       8.000000   0.000000      8.000000       6.000000
+48  neur - cerebrovasc - cerebrovascular disease, occlusive/nos   count   4740.000000    4710.000000 -30.000000   4424.000000     286.000000
+49  neur - cerebrovasc - cerebrovascular disease, occlusive/nos    mean      0.420253       0.372824  -0.047429      0.367315       0.458042
+50  neur - cerebrovasc - cerebrovascular disease, occlusive/nos     std      1.022108       0.964139  -0.057968      0.956919       1.067866
+51  neur - cerebrovasc - cerebrovascular disease, occlusive/nos     min      0.000000       0.000000   0.000000      0.000000       0.000000
+52  neur - cerebrovasc - cerebrovascular disease, occlusive/nos     25%      0.000000       0.000000   0.000000      0.000000       0.000000
+53  neur - cerebrovasc - cerebrovascular disease, occlusive/nos     50%      0.000000       0.000000   0.000000      0.000000       0.000000
+54  neur - cerebrovasc - cerebrovascular disease, occlusive/nos     75%      0.000000       0.000000   0.000000      0.000000       0.000000
+55  neur - cerebrovasc - cerebrovascular disease, occlusive/nos     max      8.000000       8.000000   0.000000      8.000000       7.000000
+56                   cvas - arterial - thoracic aortic aneurysm   count   4740.000000    4710.000000 -30.000000   4424.000000     286.000000
+57                   cvas - arterial - thoracic aortic aneurysm    mean      0.161814       0.132272  -0.029543      0.130425       0.160839
+58                   cvas - arterial - thoracic aortic aneurysm     std      0.645220       0.582282  -0.062939      0.580360       0.611588
+59                   cvas - arterial - thoracic aortic aneurysm     min      0.000000       0.000000   0.000000      0.000000       0.000000
+60                   cvas - arterial - thoracic aortic aneurysm     25%      0.000000       0.000000   0.000000      0.000000       0.000000
+61                   cvas - arterial - thoracic aortic aneurysm     50%      0.000000       0.000000   0.000000      0.000000       0.000000
+62                   cvas - arterial - thoracic aortic aneurysm     75%      0.000000       0.000000   0.000000      0.000000       0.000000
+63                   cvas - arterial - thoracic aortic aneurysm     max      7.000000       7.000000   0.000000      7.000000       3.000000
+64                  cvas - arterial - abdominal aortic aneurysm   count   4740.000000    4710.000000 -30.000000   4424.000000     286.000000
+65                  cvas - arterial - abdominal aortic aneurysm    mean      0.080802       0.061996  -0.018806      0.061709       0.066434
+66                  cvas - arterial - abdominal aortic aneurysm     std      0.449156       0.389362  -0.059794      0.389830       0.382686
+67                  cvas - arterial - abdominal aortic aneurysm     min      0.000000       0.000000   0.000000      0.000000       0.000000
+68                  cvas - arterial - abdominal aortic aneurysm     25%      0.000000       0.000000   0.000000      0.000000       0.000000
+69                  cvas - arterial - abdominal aortic aneurysm     50%      0.000000       0.000000   0.000000      0.000000       0.000000
+70                  cvas - arterial - abdominal aortic aneurysm     75%      0.000000       0.000000   0.000000      0.000000       0.000000
+71                  cvas - arterial - abdominal aortic aneurysm     max      4.000000       4.000000   0.000000      4.000000       3.000000
+72                               Px - gi - gi - gerd procedures   count   4740.000000    4710.000000 -30.000000   4424.000000     286.000000
+73                               Px - gi - gi - gerd procedures    mean      0.054641       0.074522   0.019881      0.051989       0.423077
+74                               Px - gi - gi - gerd procedures     std      0.438409       0.513327   0.074918      0.429008       1.169507
+75                               Px - gi - gi - gerd procedures     min      0.000000       0.000000   0.000000      0.000000       0.000000
+76                               Px - gi - gi - gerd procedures     25%      0.000000       0.000000   0.000000      0.000000       0.000000
+77                               Px - gi - gi - gerd procedures     50%      0.000000       0.000000   0.000000      0.000000       0.000000
+78                               Px - gi - gi - gerd procedures     75%      0.000000       0.000000   0.000000      0.000000       0.000000
+79                               Px - gi - gi - gerd procedures     max      8.000000       8.000000   0.000000      8.000000       6.000000
+
+Transplant_distribution_measurements
+                                                                     episode    df_1     df_2  ks_value  ks_p_value  t_statistic  t_p_value
+113                                cvas - heart rhythm - sick sinus syndrome  tx_egm  all_egm  0.021218    0.236096     4.183338   0.000029
+110                                        cvas - heart rhythm - heart block  tx_egm  all_egm  0.020443    0.274687     2.495756   0.012586
+114              cvas - heart rhythm - ventricular premature beats (chronic)  tx_egm  all_egm  0.019449    0.330621     2.758307   0.005821
+112  cvas - heart rhythm - paroxysmal supraventricular tachycardia (chronic)  tx_egm  all_egm  0.019421    0.332269     3.372465   0.000748
+74                                         cvas - arterial - peripheral asvd  tx_egm  all_egm  0.014471    0.700980     2.070328   0.038449
+73                                       cvas - arterial - other arterial ds  tx_egm  all_egm  0.013980    0.740358     2.319125   0.020410
+334              neur - cerebrovasc - cerebrovascular disease, occlusive/nos  tx_egm  all_egm  0.013291    0.793631     2.017447   0.043677
+115                            cvas - heart rhythm - ventricular tachycardia  tx_egm  all_egm  0.010628    0.949818     2.147732   0.031761
+
+Transplant
+                                                                    episode measure  tx_egm_value  all_egm_value       delta  static_value  changed_value
+0                                 cvas - heart rhythm - sick sinus syndrome   count   4841.000000    4566.000000 -275.000000   4197.000000     369.000000
+1                                 cvas - heart rhythm - sick sinus syndrome    mean      0.186945       0.133377   -0.053568      0.139147       0.067751
+2                                 cvas - heart rhythm - sick sinus syndrome     std      0.670176       0.563546   -0.106629      0.576125       0.387671
+3                                 cvas - heart rhythm - sick sinus syndrome     min      0.000000       0.000000    0.000000      0.000000       0.000000
+4                                 cvas - heart rhythm - sick sinus syndrome     25%      0.000000       0.000000    0.000000      0.000000       0.000000
+5                                 cvas - heart rhythm - sick sinus syndrome     50%      0.000000       0.000000    0.000000      0.000000       0.000000
+6                                 cvas - heart rhythm - sick sinus syndrome     75%      0.000000       0.000000    0.000000      0.000000       0.000000
+7                                 cvas - heart rhythm - sick sinus syndrome     max      5.000000       5.000000    0.000000      5.000000       3.000000
+8                                         cvas - heart rhythm - heart block   count   4841.000000    4566.000000 -275.000000   4197.000000     369.000000
+9                                         cvas - heart rhythm - heart block    mean      0.608552       0.550591   -0.057961      0.550393       0.552846
+10                                        cvas - heart rhythm - heart block     std      1.148949       1.100614   -0.048335      1.097987       1.131586
+11                                        cvas - heart rhythm - heart block     min      0.000000       0.000000    0.000000      0.000000       0.000000
+12                                        cvas - heart rhythm - heart block     25%      0.000000       0.000000    0.000000      0.000000       0.000000
+13                                        cvas - heart rhythm - heart block     50%      0.000000       0.000000    0.000000      0.000000       0.000000
+14                                        cvas - heart rhythm - heart block     75%      0.000000       0.000000    0.000000      0.000000       0.000000
+15                                        cvas - heart rhythm - heart block     max      6.000000       6.000000    0.000000      6.000000       5.000000
+16              cvas - heart rhythm - ventricular premature beats (chronic)   count   4841.000000    4566.000000 -275.000000   4197.000000     369.000000
+17              cvas - heart rhythm - ventricular premature beats (chronic)    mean      0.337120       0.288217   -0.048903      0.286633       0.306233
+18              cvas - heart rhythm - ventricular premature beats (chronic)     std      0.888380       0.827605   -0.060775      0.823016       0.879099
+19              cvas - heart rhythm - ventricular premature beats (chronic)     min      0.000000       0.000000    0.000000      0.000000       0.000000
+20              cvas - heart rhythm - ventricular premature beats (chronic)     25%      0.000000       0.000000    0.000000      0.000000       0.000000
+21              cvas - heart rhythm - ventricular premature beats (chronic)     50%      0.000000       0.000000    0.000000      0.000000       0.000000
+22              cvas - heart rhythm - ventricular premature beats (chronic)     75%      0.000000       0.000000    0.000000      0.000000       0.000000
+23              cvas - heart rhythm - ventricular premature beats (chronic)     max      6.000000       6.000000    0.000000      6.000000       4.000000
+24  cvas - heart rhythm - paroxysmal supraventricular tachycardia (chronic)   count   4841.000000    4566.000000 -275.000000   4197.000000     369.000000
+25  cvas - heart rhythm - paroxysmal supraventricular tachycardia (chronic)    mean      0.318323       0.261060   -0.057263      0.264713       0.219512
+26  cvas - heart rhythm - paroxysmal supraventricular tachycardia (chronic)     std      0.863453       0.777957   -0.085496      0.784578       0.697861
+27  cvas - heart rhythm - paroxysmal supraventricular tachycardia (chronic)     min      0.000000       0.000000    0.000000      0.000000       0.000000
+28  cvas - heart rhythm - paroxysmal supraventricular tachycardia (chronic)     25%      0.000000       0.000000    0.000000      0.000000       0.000000
+29  cvas - heart rhythm - paroxysmal supraventricular tachycardia (chronic)     50%      0.000000       0.000000    0.000000      0.000000       0.000000
+30  cvas - heart rhythm - paroxysmal supraventricular tachycardia (chronic)     75%      0.000000       0.000000    0.000000      0.000000       0.000000
+31  cvas - heart rhythm - paroxysmal supraventricular tachycardia (chronic)     max      5.000000       4.000000   -1.000000      4.000000       4.000000
+32                                        cvas - arterial - peripheral asvd   count   4841.000000    4566.000000 -275.000000   4197.000000     369.000000
+33                                        cvas - arterial - peripheral asvd    mean      0.247676       0.216601   -0.031075      0.218966       0.189702
+34                                        cvas - arterial - peripheral asvd     std      0.747729       0.705600   -0.042129      0.709088       0.664963
+35                                        cvas - arterial - peripheral asvd     min      0.000000       0.000000    0.000000      0.000000       0.000000
+36                                        cvas - arterial - peripheral asvd     25%      0.000000       0.000000    0.000000      0.000000       0.000000
+37                                        cvas - arterial - peripheral asvd     50%      0.000000       0.000000    0.000000      0.000000       0.000000
+38                                        cvas - arterial - peripheral asvd     75%      0.000000       0.000000    0.000000      0.000000       0.000000
+39                                        cvas - arterial - peripheral asvd     max      5.000000       5.000000    0.000000      5.000000       4.000000
+40                                      cvas - arterial - other arterial ds   count   4841.000000    4566.000000 -275.000000   4197.000000     369.000000
+41                                      cvas - arterial - other arterial ds    mean      0.202851       0.170828   -0.032023      0.170598       0.173442
+42                                      cvas - arterial - other arterial ds     std      0.694845       0.641185   -0.053660      0.642076       0.631810
+43                                      cvas - arterial - other arterial ds     min      0.000000       0.000000    0.000000      0.000000       0.000000
+44                                      cvas - arterial - other arterial ds     25%      0.000000       0.000000    0.000000      0.000000       0.000000
+45                                      cvas - arterial - other arterial ds     50%      0.000000       0.000000    0.000000      0.000000       0.000000
+46                                      cvas - arterial - other arterial ds     75%      0.000000       0.000000    0.000000      0.000000       0.000000
+47                                      cvas - arterial - other arterial ds     max      5.000000       5.000000    0.000000      5.000000       4.000000
+48              neur - cerebrovasc - cerebrovascular disease, occlusive/nos   count   4841.000000    4566.000000 -275.000000   4197.000000     369.000000
+49              neur - cerebrovasc - cerebrovascular disease, occlusive/nos    mean      0.248916       0.216601   -0.032315      0.208482       0.308943
+50              neur - cerebrovasc - cerebrovascular disease, occlusive/nos     std      0.799413       0.751309   -0.048104      0.732693       0.933641
+51              neur - cerebrovasc - cerebrovascular disease, occlusive/nos     min      0.000000       0.000000    0.000000      0.000000       0.000000
+52              neur - cerebrovasc - cerebrovascular disease, occlusive/nos     25%      0.000000       0.000000    0.000000      0.000000       0.000000
+53              neur - cerebrovasc - cerebrovascular disease, occlusive/nos     50%      0.000000       0.000000    0.000000      0.000000       0.000000
+54              neur - cerebrovasc - cerebrovascular disease, occlusive/nos     75%      0.000000       0.000000    0.000000      0.000000       0.000000
+55              neur - cerebrovasc - cerebrovascular disease, occlusive/nos     max      7.000000       6.000000   -1.000000      6.000000       6.000000
+56                            cvas - heart rhythm - ventricular tachycardia   count   4841.000000    4566.000000 -275.000000   4197.000000     369.000000
+57                            cvas - heart rhythm - ventricular tachycardia    mean      0.160091       0.134472   -0.025619      0.141768       0.051491
+58                            cvas - heart rhythm - ventricular tachycardia     std      0.603867       0.549706   -0.054161      0.563137       0.353637
+59                            cvas - heart rhythm - ventricular tachycardia     min      0.000000       0.000000    0.000000      0.000000       0.000000
+60                            cvas - heart rhythm - ventricular tachycardia     25%      0.000000       0.000000    0.000000      0.000000       0.000000
+61                            cvas - heart rhythm - ventricular tachycardia     50%      0.000000       0.000000    0.000000      0.000000       0.000000
+62                            cvas - heart rhythm - ventricular tachycardia     75%      0.000000       0.000000    0.000000      0.000000       0.000000
+63                            cvas - heart rhythm - ventricular tachycardia     max      4.000000       4.000000    0.000000      4.000000       3.000000
+
+Pediatric_distribution_measurements
+                                    episode  df_1  df_2  ks_value  ks_p_value  t_statistic  t_p_value
+0  No significantly different distributions   NaN   NaN       NaN         NaN          NaN        NaN
+
+Pediatric
+Empty DataFrame
+Columns: [tx_egm_value, all_egm_value, delta, static_value, measure, episode, changed_value]
+Index: []
+
+ACHD_distribution_measurements
+                                    episode  df_1  df_2  ks_value  ks_p_value  t_statistic  t_p_value
+0  No significantly different distributions   NaN   NaN       NaN         NaN          NaN        NaN
+
+ACHD
+Empty DataFrame
+Columns: [tx_egm_value, all_egm_value, delta, static_value, measure, episode, changed_value]
+Index: []
+
+Count of NPIs Missing Episodes by Subspecialty
+        subspecialty  tx_egm  all_egm  tx_egm_prop  all_egm_prop
+0     Interventional    2162     2202     0.102053      0.102233
+1  Electrophysiology     783      725     0.141771      0.133395
+2         Transplant    1230     1242     0.202603      0.213843
+3          Pediatric    1465     1493     0.982562      0.981591
+4               ACHD     595      573     0.727384      0.729936
 
