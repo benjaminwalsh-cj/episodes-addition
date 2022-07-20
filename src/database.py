@@ -85,7 +85,7 @@ def gen_episodes_query(
         , xwalk.EPISODE_DESC
         , egmNpi.FK_PROVIDER_ID AS NPI
         , egmNpi.EPISODE_TYPE_CD
-        , 1 AS count
+        , NUM_EPISODES AS count
     FROM "PROD_CJVRDC"."VRDC"."EGM_NPI" egmNpi
         JOIN xwalk
             ON xwalk.episode_name = egmNpi.EPISODE_DESCRIPTION
